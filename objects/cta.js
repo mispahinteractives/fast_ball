@@ -1,37 +1,82 @@
 import config from "../config.js";
 
 export class CTA extends Phaser.GameObjects.Container {
-    constructor(scene, x, y, gameScene) {
+    constructor(scene, x, y, gameScene, dimensions) {
 
         super(scene);
         this.scene = scene;
         this.x = x;
         this.y = y;
         this.gameScene = gameScene;
+        this.dimensions = dimensions;
         this.scene.add.existing(this);
         this.init();
     }
 
     init() {
 
-        this.bg = this.scene.add.sprite(0, 0, 'bg');
-        this.bg.setOrigin(0.5);
-        this.add(this.bg);
+        this.countValue = 0;
 
-        this.logo = this.scene.add.sprite(0, -250, "sheet", 'title');
-        this.logo.setOrigin(0.5);
-        this.logo.setScale(1);
-        this.add(this.logo);
+        this.graphicsGrp = this.scene.add.container(0, 0);
+        this.add(this.graphicsGrp);
 
-        // this.playBtn = this.scene.add.sprite(0, 35, "sheet", 'play');
-        // this.playBtn.setOrigin(0.5);
-        // this.playBtn.setScale(0.9);
-        // this.add(this.playBtn);
+        this.graphics = this.scene.make.graphics().fillStyle(0x000000, 1).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
+        this.graphicsGrp.add(this.graphics);
 
-        // this.line = this.scene.add.sprite(0, 165, "sheet", 'line');
-        // this.line.setOrigin(0.5);
-        // this.line.setScale(0.9);
-        // this.add(this.line);
+        this.frame = this.scene.add.graphics();
+        this.frame.lineStyle(5, 0x03d9d9)
+        this.frame.strokeRoundedRect(-200, -400, 400, 800, 50);
+        this.add(this.frame);
+
+        this.line = this.scene.add.graphics();
+        this.line.fillStyle(0xda6b62, 1)
+        this.line.fillRect(-100, 150, 200, 4)
+        this.add(this.line);
+
+        this.ctaText1 = this.scene.add.text(0, -275, this.scene.text.texts[0].ctaTxt1, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 20,
+            fill: "#ffffff",
+            align: "center",
+        });
+        this.ctaText1.setOrigin(0.5);
+        this.add(this.ctaText1);
+
+        this.ctaText2 = this.scene.add.text(0, -200, this.scene.text.texts[0].ctaTxt2, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 57,
+            fill: "#03d9d9",
+            align: "center",
+        });
+        this.ctaText2.setOrigin(0.5);
+        this.add(this.ctaText2);
+
+        this.ctaText3 = this.scene.add.text(0, 250, this.scene.text.texts[0].ctaTxt3, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 40,
+            fill: "#c2c2c2",
+            align: "center",
+        });
+        this.ctaText3.setOrigin(0.5);
+        this.add(this.ctaText3);
+
+        this.count1 = this.scene.add.text(0, 75, this.countValue, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 35,
+            fill: "#ffffff",
+            align: "center",
+        });
+        this.count1.setOrigin(0.5);
+        this.add(this.count1);
+
+        this.count2 = this.scene.add.text(0, 350, this.countValue, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 35,
+            fill: "#da6b62",
+            align: "center",
+        });
+        this.count2.setOrigin(0.5);
+        this.add(this.count2);
 
         // this.playBtn.setInteractive();
         // this.playBtn.on("pointerdown", () => {
@@ -39,8 +84,8 @@ export class CTA extends Phaser.GameObjects.Container {
         // });
 
         this.visible = false;
-        // this.userWon = true
-        // this.show()
+        this.userWon = true
+            // this.show()
     }
 
     ctaClick(sprite) {
@@ -62,52 +107,70 @@ export class CTA extends Phaser.GameObjects.Container {
         this.visible = true;
         // this.scene.hideUI();
 
-        // this.alpha = 0;
-        // this.logo.alpha = 0;
-        // this.line.alpha = 0;
-        // this.playBtn.alpha = 0;
+        this.alpha = 0;
+        this.ctaText2.alpha = 0;
+        this.ctaText3.alpha = 0;
+        this.count1.alpha = 0;
+        this.count2.alpha = 0;
 
-        // this.scene.tweens.add({
-        //     targets: this,
-        //     alpha: { from: 0, to: 1 },
-        //     ease: "Linear",
-        //     duration: 200,
-        //     onComplete: () => {
-        //         this.scene.tweens.add({
-        //             targets: this.logo,
-        //             alpha: { from: 0, to: 1 },
-        //             y: { from: this.logo.y - 500, to: this.logo.y },
-        //             ease: "Back.easeOut",
-        //             duration: 200,
-        //             onComplete: () => {
-        //                 this.scene.tweens.add({
-        //                     targets: this.playBtn,
-        //                     alpha: { from: 0, to: 1 },
-        //                     scale: { from: 0, to: this.playBtn.scale },
-        //                     ease: "Linear",
-        //                     duration: 200,
-        //                     onComplete: () => {
-        //                         this.scene.tweens.add({
-        //                             targets: this.playBtn,
-        //                             scale: { from: this.playBtn.scale, to: this.playBtn.scale + 0.1 },
-        //                             ease: "Linear",
-        //                             duration: 700,
-        //                             yoyo: true,
-        //                             repeat: -1,
-        //                         })
-        //                         this.scene.tweens.add({
-        //                             targets: this.line,
-        //                             alpha: { from: 0, to: 1 },
-        //                             scale: { from: 0, to: this.line.scale },
-        //                             ease: "Linear",
-        //                             duration: 200,
-        //                         })
-        //                     }
-        //                 })
-        //             }
-        //         })
-        //     }
-        // })
+        this.scene.tweens.add({
+            targets: this,
+            alpha: { from: 0, to: 1 },
+            ease: "Linear",
+            duration: 200,
+            onComplete: () => {
+                this.scene.tweens.add({
+                    targets: this.ctaText2,
+                    alpha: { from: 0, to: 1 },
+                    ease: "Linear",
+                    duration: 200,
+                    onComplete: () => {
+                        this.scene.tweens.add({
+                            targets: this.ctaText2,
+                            scale: { from: this.ctaText2.scale, to: this.ctaText2.scale + 0.2 },
+                            ease: "Linear",
+                            duration: 700,
+                            yoyo: true,
+                            repeat: -1,
+                        })
+                        this.scene.tweens.add({
+                            targets: this.count1,
+                            alpha: { from: 0, to: 1 },
+                            scale: { from: 0, to: this.count1.scale },
+                            ease: "Linear",
+                            duration: 200,
+                            onComplete: () => {
+                                this.scene.tweens.add({
+                                    targets: this.ctaText3,
+                                    alpha: { from: 0, to: 1 },
+                                    scaleX: { from: 0, to: this.ctaText3.scaleX },
+                                    ease: "Linear",
+                                    duration: 200,
+                                    onComplete: () => {
+                                        this.scene.tweens.add({
+                                            targets: this.count2,
+                                            alpha: { from: 0, to: 1 },
+                                            scale: { from: 0, to: this.count2.scale },
+                                            ease: "Linear",
+                                            duration: 200,
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    }
+
+    adjust() {
+        this.x = this.dimensions.gameWidth / 2;
+        this.y = this.dimensions.gameHeight / 2;
+
+        if (this.graphics) this.graphics.destroy();
+        this.graphics = this.scene.make.graphics().fillStyle(0x000000, 1).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
+        this.graphicsGrp.add(this.graphics);
     }
 
     hide() {

@@ -63,7 +63,7 @@ export default class GameScene extends Phaser.Scene {
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.gamePlay);
 
-        this.cta = new CTA(this, 0, 0, this);
+        this.cta = new CTA(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.cta);
 
         this.gameOver = false;
@@ -214,19 +214,8 @@ export default class GameScene extends Phaser.Scene {
         this.gamePlay.x = dimensions.gameWidth / 2;
         this.gamePlay.y = dimensions.gameHeight / 2;
 
-        this.cta.x = dimensions.gameWidth / 2;
-        this.cta.y = dimensions.gameHeight / 2;
+        this.cta.adjust();
 
-        this.cta.bg.setScale(1);
-
-        scaleX = dimensions.actualWidth / this.cta.bg.displayWidth;
-        scaleY = dimensions.actualHeight / this.cta.bg.displayHeight;
-        scale = Math.max(scaleX, scaleY);
-
-        this.cta.bg.setScale(scale);
-
-        this.cta.bg.x = dimensions.gameWidth / 2 - this.cta.x;
-        this.cta.bg.y = dimensions.gameHeight / 2 - this.cta.y;
     }
 
     offsetMouse() {
