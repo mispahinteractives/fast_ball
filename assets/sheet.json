@@ -1,0 +1,84 @@
+{"frames": [
+
+{
+	"filename": "brown",
+	"frame": {"x":774,"y":179,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+},
+{
+	"filename": "close",
+	"frame": {"x":540,"y":179,"w":120,"h":119},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":119},
+	"sourceSize": {"w":120,"h":119}
+},
+{
+	"filename": "hand",
+	"frame": {"x":663,"y":179,"w":108,"h":207},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":108,"h":207},
+	"sourceSize": {"w":124,"h":207}
+},
+{
+	"filename": "left",
+	"frame": {"x":540,"y":301,"w":46,"h":133},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":133},
+	"sourceSize": {"w":46,"h":133}
+},
+{
+	"filename": "logo",
+	"frame": {"x":538,"y":2,"w":259,"h":174},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":259,"h":174},
+	"sourceSize": {"w":259,"h":174}
+},
+{
+	"filename": "panel",
+	"frame": {"x":2,"y":2,"w":533,"h":725},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":533,"h":725},
+	"sourceSize": {"w":533,"h":727}
+},
+{
+	"filename": "play",
+	"frame": {"x":2,"y":730,"w":535,"h":120},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":535,"h":120},
+	"sourceSize": {"w":535,"h":120}
+},
+{
+	"filename": "right",
+	"frame": {"x":589,"y":301,"w":46,"h":133},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":133},
+	"sourceSize": {"w":46,"h":133}
+},
+{
+	"filename": "white",
+	"frame": {"x":774,"y":197,"w":15,"h":15},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":15},
+	"sourceSize": {"w":15,"h":15}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sheet.png",
+	"format": "RGBA8888",
+	"size": {"w":799,"h":852},
+	"scale": "0.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:23ec5a70da477ca4e8f40f1608ec3405:edf59d5b515ef54238f1f583a97f6eed:9c44ecd7e9a522007eaff2949095bc1d$"
+}
+}
