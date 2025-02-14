@@ -14,9 +14,14 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     init() {
+        // this.bg = this.scene.add.sprite(0, 100, "sheet", 'panel');
+        // this.bg.setOrigin(0.5);
+        // this.bg.setScale(1);
+        // this.add(this.bg);
+
         this.rectGraphics = this.scene.add.graphics();
-        this.rectGraphics.lineStyle(5, 0x00FFFF, 1);
-        this.rectGraphics.strokeRect(-150, -250, 300, 500);
+        this.rectGraphics.lineStyle(5, 0x000000, 1);
+        this.rectGraphics.strokeRect(-200, -300, 400, 600);
         this.add(this.rectGraphics);
 
         this.ball = this.scene.add.sprite(0, 100, "sheet", 'brown');
@@ -24,11 +29,10 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.ball.setScale(2);
         this.add(this.ball);
 
-        // Velocity variables
-        this.ballVelocityX = 3; // Speed in X direction
-        this.ballVelocityY = 2; // Speed in Y direction
+        this.speedMultiplier = 2;
+        this.ballVelocityX = 3 * this.speedMultiplier;
+        this.ballVelocityY = 2 * this.speedMultiplier;
 
-        // Define rectangle boundaries
         this.minX = -150;
         this.maxX = 150;
         this.minY = -250;
@@ -40,14 +44,13 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.ball.x += this.ballVelocityX;
         this.ball.y += this.ballVelocityY;
 
-        // Check for collisions and bounce
         if (this.ball.x - this.ball.displayWidth / 2 <= this.minX ||
             this.ball.x + this.ball.displayWidth / 2 >= this.maxX) {
-            this.ballVelocityX *= -1; // Reverse X velocity
+            this.ballVelocityX *= -1;
         }
         if (this.ball.y - this.ball.displayHeight / 2 <= this.minY ||
             this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
-            this.ballVelocityY *= -1; // Reverse Y velocity
+            this.ballVelocityY *= -1;
         }
     }
 }
