@@ -20,12 +20,12 @@ export class CTA extends Phaser.GameObjects.Container {
         this.graphicsGrp = this.scene.add.container(0, 0);
         this.add(this.graphicsGrp);
 
-        this.graphics = this.scene.make.graphics().fillStyle(0x000000, 1).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
+        this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
         this.graphicsGrp.add(this.graphics);
 
         this.frame = this.scene.add.graphics();
         this.frame.lineStyle(5, 0x03d9d9)
-        this.frame.strokeRoundedRect(-200, -400, 400, 800, 50);
+        this.frame.strokeRoundedRect(-225, -400, 450, 800, 50);
         this.add(this.frame);
 
         this.line = this.scene.add.graphics();
@@ -41,6 +41,7 @@ export class CTA extends Phaser.GameObjects.Container {
         });
         this.ctaText1.setOrigin(0.5);
         this.add(this.ctaText1);
+        this.ctaText1.visible = false;
 
         this.ctaText2 = this.scene.add.text(0, -200, this.scene.text.texts[0].ctaTxt2, {
             fontFamily: "UberMoveMedium",
@@ -122,7 +123,7 @@ export class CTA extends Phaser.GameObjects.Container {
                 this.scene.tweens.add({
                     targets: this.ctaText2,
                     alpha: { from: 0, to: 1 },
-                    ease: "Linear",
+                    ease: "Back.easeOut",
                     duration: 200,
                     onComplete: () => {
                         this.scene.tweens.add({
@@ -169,7 +170,7 @@ export class CTA extends Phaser.GameObjects.Container {
         this.y = this.dimensions.gameHeight / 2;
 
         if (this.graphics) this.graphics.destroy();
-        this.graphics = this.scene.make.graphics().fillStyle(0x000000, 1).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
+        this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
         this.graphicsGrp.add(this.graphics);
     }
 
