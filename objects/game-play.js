@@ -17,14 +17,12 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.rectWidth = 450;
         this.rectHeight = 800;
         this.speedMultiplier = 4;
-        this.ballVelocityX = 0; // Initially no horizontal movement
+        this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
         this.minX = -this.rectWidth / 2;
         this.maxX = this.rectWidth / 2;
         this.minY = -this.rectHeight / 2;
         this.maxY = this.rectHeight / 2;
-        this.gameOver = false;
-        this.movementCount = 0;
 
         this.rectGraphics = this.scene.add.graphics();
         this.rectGraphics.lineStyle(7, 0x000000, 1);
@@ -46,11 +44,14 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         this.line.setInteractive();
         this.scene.input.setDraggable(this.line);
+        this.lineInteracted = false;
 
         this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
             if (gameObject === this.line) {
                 let clampedX = Phaser.Math.Clamp(dragX, this.minX + this.line.displayWidth / 2, this.maxX - this.line.displayWidth / 2);
                 this.line.x = clampedX;
+
+                this.lineInteracted = true;
             }
         });
 
@@ -73,15 +74,23 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.staticBallWidth = this.staticBall.width;
         this.staticBallHeight = this.staticBall.height;
 
+        this.gameOver = false;
     }
 
     update() {
         if (this.gameOver) return;
 
+        if (this.lineInteracted && this.ballVelocityX === 0) {
+            this.ballVelocityX = 3 * this.speedMultiplier;
+        }
+
         this.ball.x += this.ballVelocityX;
         this.ball.y += this.ballVelocityY;
 
-        this.movementCount++;
+        if (this.ball.y + this.ball.displayHeight / 2 >= this.outline.y + this.outline.displayHeight / 2) {
+            this.showFail();
+            return;
+        }
 
         if (this.ball.y - this.ball.displayHeight / 2 <= this.minY || this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
             this.ballVelocityY *= -1;
@@ -89,11 +98,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         if (this.ball.x - this.ball.displayWidth / 2 <= this.minX || this.ball.x + this.ball.displayWidth / 2 >= this.maxX) {
             this.ballVelocityX *= -1;
-        }
-
-        if (this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
-            this.showFail();
-            return;
         }
 
         if (this.checkCollisionWithLine()) {
@@ -165,9 +169,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
     handleLineCollision() {
         this.ballVelocityY *= -1;
-        if (this.movementCount > 400) {
-            this.ballVelocityX = 3 * this.speedMultiplier;
-        }
     }
 
     showFail() {
@@ -175,6 +176,9 @@ export class GamePlay extends Phaser.GameObjects.Container {
         console.log("FAIL! The ball has hit the bottom.");
         this.ballVelocityX = 0;
         this.ballVelocityY = 0;
+        if (this.emitter) {
+            this.emitter.stop();
+        }
     }
 
     triggerHitEmitter(x, y) {
