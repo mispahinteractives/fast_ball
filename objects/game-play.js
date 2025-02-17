@@ -16,27 +16,33 @@ export class GamePlay extends Phaser.GameObjects.Container {
     init() {
         this.rectWidth = 450;
         this.rectHeight = 800;
-        this.speedMultiplier = 3;
-        this.ballVelocityX = 3 * this.speedMultiplier;
-        this.ballVelocityY = 2 * this.speedMultiplier;
+        this.speedMultiplier = 4;
+        this.ballVelocityX = 0; // Initially no horizontal movement
+        this.ballVelocityY = 3 * this.speedMultiplier;
         this.minX = -this.rectWidth / 2;
         this.maxX = this.rectWidth / 2;
         this.minY = -this.rectHeight / 2;
         this.maxY = this.rectHeight / 2;
+        this.gameOver = false;
+        this.movementCount = 0;
 
         this.rectGraphics = this.scene.add.graphics();
-        this.rectGraphics.lineStyle(5, 0x000000, 1);
-        this.rectGraphics.strokeRect(-this.rectWidth / 2, -this.rectHeight / 2, this.rectWidth, this.rectHeight);
+        this.rectGraphics.lineStyle(7, 0x000000, 1);
+        this.rectGraphics.strokeRoundedRect(-this.rectWidth / 2, -this.rectHeight / 2, this.rectWidth, this.rectHeight, 50);
         this.add(this.rectGraphics);
 
         this.ball = this.scene.add.sprite(0, 270, "sheet", 'brown');
         this.ball.setOrigin(0.5);
-        this.ball.setScale(2);
+        this.ball.setScale(1);
         this.add(this.ball);
 
         this.line = this.scene.add.sprite(0, 300, "sheet", 'line');
         this.line.setOrigin(0.5);
         this.add(this.line);
+
+        this.outline = this.scene.add.sprite(0, 350, "sheet", 'outline');
+        this.outline.setOrigin(0.5);
+        this.add(this.outline);
 
         this.line.setInteractive();
         this.scene.input.setDraggable(this.line);
@@ -67,22 +73,22 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.staticBallWidth = this.staticBall.width;
         this.staticBallHeight = this.staticBall.height;
 
-        this.gameOver = false;
     }
 
     update() {
         if (this.gameOver) return;
+
         this.ball.x += this.ballVelocityX;
         this.ball.y += this.ballVelocityY;
 
+        this.movementCount++;
+
         if (this.ball.y - this.ball.displayHeight / 2 <= this.minY || this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
             this.ballVelocityY *= -1;
-            // this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
         if (this.ball.x - this.ball.displayWidth / 2 <= this.minX || this.ball.x + this.ball.displayWidth / 2 >= this.maxX) {
             this.ballVelocityX *= -1;
-            // this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
         if (this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
@@ -102,7 +108,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
             this.staticBall.destroy();
 
             let randomX = Phaser.Math.Between(this.minX + 50, this.maxX - 50);
-            let randomY = Phaser.Math.Between(this.minY + 50, this.maxY - 50);
+            let randomY = Phaser.Math.Between(this.minY + 50, this.maxY - 150);
 
             this.staticBall = this.scene.add.sprite(randomX, randomY, "sheet", 'white');
             this.staticBall.setOrigin(0.5);
@@ -117,6 +123,25 @@ export class GamePlay extends Phaser.GameObjects.Container {
             this.ballVelocityX = Math.cos(angle) * speed;
             this.ballVelocityY = Math.sin(angle) * speed;
         }
+    }
+
+    checkCollisionWithOutline() {
+        let ballLeft = this.ball.x - this.ball.displayWidth / 2;
+        let ballRight = this.ball.x + this.ball.displayWidth / 2;
+        let ballTop = this.ball.y - this.ball.displayHeight / 2;
+        let ballBottom = this.ball.y + this.ball.displayHeight / 2;
+
+        let outlineLeft = this.outline.x - this.outline.displayWidth / 2;
+        let outlineRight = this.outline.x + this.outline.displayWidth / 2;
+        let outlineTop = this.outline.y - this.outline.displayHeight / 2;
+        let outlineBottom = this.outline.y + this.outline.displayHeight / 2;
+
+        return (
+            ballRight > outlineLeft &&
+            ballLeft < outlineRight &&
+            ballBottom > outlineTop &&
+            ballTop < outlineBottom
+        );
     }
 
     checkCollisionWithLine() {
@@ -140,6 +165,9 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
     handleLineCollision() {
         this.ballVelocityY *= -1;
+        if (this.movementCount > 400) {
+            this.ballVelocityX = 3 * this.speedMultiplier;
+        }
     }
 
     showFail() {
