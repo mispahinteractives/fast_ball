@@ -99,6 +99,7 @@ export default class GameScene extends Phaser.Scene {
             volume: 1
         });
         this.bgm.play();
+        this.gamePlay.startGame();
     }
 
     hideUI() {

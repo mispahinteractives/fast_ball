@@ -42,7 +42,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.scoreText.setOrigin(0.5);
         this.add(this.scoreText);
 
-        this.ball = this.scene.add.sprite(0, 0, "sheet", 'brown');
+        this.ball = this.scene.add.sprite(0, 200, "sheet", 'brown');
         this.ball.setOrigin(0.5);
         this.ball.setScale(1);
         this.add(this.ball);
@@ -89,7 +89,12 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.staticBallHeight = this.staticBall.height;
 
     }
+
+    startGame() {
+        this.gameStarted = true;
+    }
     update() {
+        if (!this.gameStarted) return;
         if (this.gameOver) return;
 
         if (this.lineInteracted && this.ballVelocityX === 0) {
