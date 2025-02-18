@@ -60,6 +60,9 @@ export default class GameScene extends Phaser.Scene {
         this.bg = this.add.sprite(0, 0, 'bg').setOrigin(0.5);
         this.gameGroup.add(this.bg);
 
+        this.logo = this.add.sprite(0, 0, "sheet", 'logo').setOrigin(0.5);
+        this.gameGroup.add(this.logo);
+
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.gamePlay);
 
@@ -79,6 +82,23 @@ export default class GameScene extends Phaser.Scene {
             this.startGameplay()
         }
 
+        this.firstTouch();
+    }
+
+    firstTouch() {
+
+        this.input.on('pointerdown', this.firstTouchEvent, this);
+    }
+
+    firstTouchEvent() {
+        if (this.firstTouchDetected) return
+        this.firstTouchDetected = true;
+        console.log('First touch detected!');
+        this.bgm = this.sound.add('bgm_loop', {
+            loop: true,
+            volume: 1
+        });
+        this.bgm.play();
     }
 
     hideUI() {
@@ -211,8 +231,12 @@ export default class GameScene extends Phaser.Scene {
         this.bg.x = dimensions.gameWidth / 2;
         this.bg.y = dimensions.gameHeight / 2;
 
+        this.logo.x = dimensions.gameWidth / 2;
+        this.logo.y = dimensions.topOffset + 60;
+        this.logo.setScale(.3);
+
         this.gamePlay.x = dimensions.gameWidth / 2;
-        this.gamePlay.y = dimensions.gameHeight / 2;
+        this.gamePlay.y = dimensions.gameHeight / 2 + 50;
 
         this.cta.adjust();
 

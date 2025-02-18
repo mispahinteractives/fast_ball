@@ -85,7 +85,12 @@ export class CTA extends Phaser.GameObjects.Container {
         if (this.visible) return;
         this.visible = true;
         // this.scene.hideUI();
-        this.count1.setText(this.scene.gamePlay.score)
+        if (this.scene.gamePlay.score <= 0) {
+            this.scene.sound.play('fail', { volume: 1 })
+        } else {
+            this.scene.sound.play('win', { volume: 1 })
+            this.count1.setText(this.scene.gamePlay.score)
+        }
 
         this.alpha = 0;
         this.logo.alpha = 0;

@@ -60,6 +60,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.lineInteracted = false;
 
         this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+            this.scene.firstTouchEvent(this.scene);
             if (gameObject === this.line) {
                 let clampedX = Phaser.Math.Clamp(dragX, this.minX + this.line.displayWidth / 2, this.maxX - this.line.displayWidth / 2);
                 this.line.x = clampedX;
@@ -205,6 +206,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     updateScore() {
+        this.scene.sound.play('bonus', { volume: .4 })
         this.score += 1;
         this.scoreText.setText(this.score);
     }
@@ -224,6 +226,9 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     triggerHitEmitter(x, y) {
+        if (this.scene.firstTouchDetected) {
+            this.scene.sound.play('bounce', { volume: 1 })
+        }
         let hitEmitter = this.scene.add.particles(x, y, "square", {
             speed: 80,
             lifespan: 600,
