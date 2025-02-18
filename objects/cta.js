@@ -39,26 +39,6 @@ export class CTA extends Phaser.GameObjects.Container {
         this.logo = this.scene.add.sprite(0, -175, "sheet", 'logo').setOrigin(0.5).setScale(0.5);
         this.add(this.logo);
 
-        this.ctaText1 = this.scene.add.text(0, -275, this.scene.text.texts[0].ctaTxt1, {
-            fontFamily: "UberMoveMedium",
-            fontSize: 20,
-            fill: "#000000",
-            align: "center",
-        });
-        this.ctaText1.setOrigin(0.5);
-        this.add(this.ctaText1);
-        this.ctaText1.visible = false;
-
-        this.ctaText2 = this.scene.add.text(0, -200, this.scene.text.texts[0].ctaTxt2, {
-            fontFamily: "UberMoveMedium",
-            fontSize: 57,
-            fill: "#03d9d9",
-            align: "center",
-        });
-        this.ctaText2.setOrigin(0.5);
-        this.add(this.ctaText2);
-        this.ctaText2.visible = false;
-
         this.ctaText3 = this.scene.add.text(0, 250, this.scene.text.texts[0].ctaTxt3, {
             fontFamily: "UberMoveMedium",
             fontSize: 40,

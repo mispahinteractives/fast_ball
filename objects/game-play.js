@@ -10,6 +10,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.gameScene = gameScene;
         this.scene.add.existing(this);
 
+        this.collisionCooldown = 0;
         this.init();
     }
 
@@ -112,8 +113,11 @@ export class GamePlay extends Phaser.GameObjects.Container {
             this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
-        if (this.checkCollisionWithLine()) {
+        let currentTime = this.scene.time.now; // Get the current timestamp
+
+        if (this.checkCollisionWithLine() && currentTime - this.collisionCooldown > 200) {
             this.handleLineCollision();
+            this.collisionCooldown = currentTime; // Set the new cooldown time
         }
 
         let dx = this.ball.x - this.staticBall.x;
@@ -140,6 +144,14 @@ export class GamePlay extends Phaser.GameObjects.Container {
             this.ballVelocityX = Math.cos(angle) * speed;
             this.ballVelocityY = Math.sin(angle) * speed;
         }
+    }
+
+    handleLineCollision() {
+        if (this.ballVelocityX === 0) {
+            this.startLineMovement();
+        }
+        this.triggerHitEmitter(this.ball.x, this.ball.y);
+        this.ballVelocityY *= -1;
     }
 
     checkCollisionWithOutline() {
@@ -178,14 +190,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
             ballBottom > lineTop &&
             ballTop < lineBottom
         );
-    }
-
-    handleLineCollision() {
-        if (this.ballVelocityX === 0) {
-            this.startLineMovement();
-        }
-        this.triggerHitEmitter(this.ball.x, this.ball.y);
-        this.ballVelocityY *= -1;
     }
 
     startLineMovement() {
