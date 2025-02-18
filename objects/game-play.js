@@ -23,13 +23,15 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.maxX = this.rectWidth / 2;
         this.minY = -this.rectHeight / 2;
         this.maxY = this.rectHeight / 2;
+        this.lineInteracted = false;
+        this.gameOver = false;
 
         this.rectGraphics = this.scene.add.graphics();
         this.rectGraphics.lineStyle(7, 0x000000, 1);
         this.rectGraphics.strokeRoundedRect(-this.rectWidth / 2, -this.rectHeight / 2, this.rectWidth, this.rectHeight, 50);
         this.add(this.rectGraphics);
 
-        this.ball = this.scene.add.sprite(0, 270, "sheet", 'brown');
+        this.ball = this.scene.add.sprite(0, 0, "sheet", 'brown');
         this.ball.setOrigin(0.5);
         this.ball.setScale(1);
         this.add(this.ball);
@@ -74,14 +76,12 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.staticBallWidth = this.staticBall.width;
         this.staticBallHeight = this.staticBall.height;
 
-        this.gameOver = false;
     }
-
     update() {
         if (this.gameOver) return;
 
         if (this.lineInteracted && this.ballVelocityX === 0) {
-            this.ballVelocityX = 3 * this.speedMultiplier;
+            this.ballVelocityX = 2 * this.speedMultiplier;
         }
 
         this.ball.x += this.ballVelocityX;
@@ -169,6 +169,19 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
     handleLineCollision() {
         this.ballVelocityY *= -1;
+        this.startLineMovement();
+    }
+
+    startLineMovement() {
+        this.lineMoving = false
+        if (!this.lineMoving && this.ballVelocityY == -12) {
+            console.log("Line moving");
+            this.lineMoving = true
+            setTimeout(() => {
+                this.line.y -= 2;
+                this.outline.y -= 2;
+            }, 200);
+        }
     }
 
     showFail() {
