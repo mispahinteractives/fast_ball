@@ -25,11 +25,21 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.maxY = this.rectHeight / 2;
         this.lineInteracted = false;
         this.gameOver = false;
+        this.score = 0;
 
         this.rectGraphics = this.scene.add.graphics();
         this.rectGraphics.lineStyle(7, 0x000000, 1);
         this.rectGraphics.strokeRoundedRect(-this.rectWidth / 2, -this.rectHeight / 2, this.rectWidth, this.rectHeight, 50);
         this.add(this.rectGraphics);
+
+        this.scoreText = this.scene.add.text(0, -100, this.score, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 300,
+            fill: "#4c7f68",
+            align: "center",
+        });
+        this.scoreText.setOrigin(0.5);
+        this.add(this.scoreText);
 
         this.ball = this.scene.add.sprite(0, 0, "sheet", 'brown');
         this.ball.setOrigin(0.5);
@@ -94,10 +104,12 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         if (this.ball.y - this.ball.displayHeight / 2 <= this.minY || this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
             this.ballVelocityY *= -1;
+            this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
         if (this.ball.x - this.ball.displayWidth / 2 <= this.minX || this.ball.x + this.ball.displayWidth / 2 >= this.maxX) {
             this.ballVelocityX *= -1;
+            this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
         if (this.checkCollisionWithLine()) {
@@ -112,7 +124,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
             this.staticBall.destroy();
 
             let randomX = Phaser.Math.Between(this.minX + 50, this.maxX - 50);
-            let randomY = Phaser.Math.Between(this.minY + 50, this.maxY - 150);
+            let randomY = Phaser.Math.Between(this.minY + 50, this.maxY - 350);
 
             this.staticBall = this.scene.add.sprite(randomX, randomY, "sheet", 'white');
             this.staticBall.setOrigin(0.5);
@@ -168,23 +180,34 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     handleLineCollision() {
+        if (this.ballVelocityX === 0) {
+            this.startLineMovement();
+        } else {
+            this.updateScore();
+        }
+        this.triggerHitEmitter(this.ball.x, this.ball.y);
         this.ballVelocityY *= -1;
-        this.startLineMovement();
     }
 
     startLineMovement() {
-        this.lineMoving = false
-        if (!this.lineMoving && this.ballVelocityY == -12) {
-            console.log("Line moving");
-            this.lineMoving = true
+        if (!this.lineMoving) {
+            this.lineMoving = true;
+            console.log("line moving");
             setTimeout(() => {
-                this.line.y -= 2;
-                this.outline.y -= 2;
+                this.line.y -= 3;
+                this.outline.y -= 3;
+                this.lineMoving = false;
             }, 200);
         }
     }
 
+    updateScore() {
+        this.score += 1;
+        this.scoreText.setText(this.score);
+    }
+
     showFail() {
+        this.triggerHitEmitter(this.ball.x, this.ball.y);
         this.gameOver = true;
         console.log("FAIL! The ball has hit the bottom.");
         this.ballVelocityX = 0;
@@ -192,17 +215,20 @@ export class GamePlay extends Phaser.GameObjects.Container {
         if (this.emitter) {
             this.emitter.stop();
         }
+        setTimeout(() => {
+            this.scene.cta.show();
+        }, 500);
     }
 
     triggerHitEmitter(x, y) {
         let hitEmitter = this.scene.add.particles(x, y, "square", {
-            speed: 100,
-            lifespan: 300,
-            scale: { start: .2, end: 0 },
-            alpha: { start: 1, end: 0 },
-            quantity: 10,
+            speed: 80,
+            lifespan: 600,
+            scale: { start: .8, end: .3 },
+            alpha: { start: 1, end: .5 },
+            quantity: 6,
             frequency: 0,
-            maxParticles: 50,
+            maxParticles: 6,
             angle: { min: 0, max: 360 },
             gravityY: 100,
             collide: true,

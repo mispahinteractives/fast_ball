@@ -23,6 +23,9 @@ export class CTA extends Phaser.GameObjects.Container {
         this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
         this.graphicsGrp.add(this.graphics);
 
+        this.bg = this.scene.add.sprite(0, 0, 'bg').setOrigin(0.5);
+        this.add(this.bg);
+
         this.frame = this.scene.add.graphics();
         this.frame.lineStyle(5, 0x03d9d9)
         this.frame.strokeRoundedRect(-225, -400, 450, 800, 50);
@@ -32,6 +35,9 @@ export class CTA extends Phaser.GameObjects.Container {
         this.line.fillStyle(0xda6b62, 1)
         this.line.fillRect(-100, 150, 200, 4)
         this.add(this.line);
+
+        this.logo = this.scene.add.sprite(0, -175, "sheet", 'logo').setOrigin(0.5).setScale(0.5);
+        this.add(this.logo);
 
         this.ctaText1 = this.scene.add.text(0, -275, this.scene.text.texts[0].ctaTxt1, {
             fontFamily: "UberMoveMedium",
@@ -51,6 +57,7 @@ export class CTA extends Phaser.GameObjects.Container {
         });
         this.ctaText2.setOrigin(0.5);
         this.add(this.ctaText2);
+        this.ctaText2.visible = false;
 
         this.ctaText3 = this.scene.add.text(0, 250, this.scene.text.texts[0].ctaTxt3, {
             fontFamily: "UberMoveMedium",
@@ -107,9 +114,10 @@ export class CTA extends Phaser.GameObjects.Container {
         if (this.visible) return;
         this.visible = true;
         // this.scene.hideUI();
+        this.count2.setText(this.scene.gamePlay.score)
 
         this.alpha = 0;
-        this.ctaText2.alpha = 0;
+        this.logo.alpha = 0;
         this.ctaText3.alpha = 0;
         this.count1.alpha = 0;
         this.count2.alpha = 0;
@@ -121,14 +129,14 @@ export class CTA extends Phaser.GameObjects.Container {
             duration: 200,
             onComplete: () => {
                 this.scene.tweens.add({
-                    targets: this.ctaText2,
+                    targets: this.logo,
                     alpha: { from: 0, to: 1 },
                     ease: "Back.easeOut",
                     duration: 200,
                     onComplete: () => {
                         this.scene.tweens.add({
-                            targets: this.ctaText2,
-                            scale: { from: this.ctaText2.scale, to: this.ctaText2.scale + 0.2 },
+                            targets: this.logo,
+                            scale: { from: this.logo.scale, to: this.logo.scale + 0.1 },
                             ease: "Linear",
                             duration: 700,
                             yoyo: true,
@@ -168,6 +176,15 @@ export class CTA extends Phaser.GameObjects.Container {
     adjust() {
         this.x = this.dimensions.gameWidth / 2;
         this.y = this.dimensions.gameHeight / 2;
+
+        this.bg.setScale(1);
+        let scaleX = this.dimensions.actualWidth / this.bg.displayWidth;
+        let scaleY = this.dimensions.actualHeight / this.bg.displayHeight;
+        let scale = Math.max(scaleX, scaleY);
+        this.bg.setScale(scale);
+
+        this.bg.x = this.dimensions.gameWidth / 2 - this.x;
+        this.bg.y = this.dimensions.gameHeight / 2 - this.y;
 
         if (this.graphics) this.graphics.destroy();
         this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
