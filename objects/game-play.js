@@ -122,6 +122,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         if (distance < this.ball.displayWidth) {
             this.staticBall.destroy();
+            this.updateScore();
 
             let randomX = Phaser.Math.Between(this.minX + 50, this.maxX - 50);
             let randomY = Phaser.Math.Between(this.minY + 50, this.maxY - 350);
@@ -182,8 +183,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
     handleLineCollision() {
         if (this.ballVelocityX === 0) {
             this.startLineMovement();
-        } else {
-            this.updateScore();
         }
         this.triggerHitEmitter(this.ball.x, this.ball.y);
         this.ballVelocityY *= -1;

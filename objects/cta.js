@@ -27,12 +27,12 @@ export class CTA extends Phaser.GameObjects.Container {
         this.add(this.bg);
 
         this.frame = this.scene.add.graphics();
-        this.frame.lineStyle(5, 0x03d9d9)
+        this.frame.lineStyle(5, 0x000000)
         this.frame.strokeRoundedRect(-225, -400, 450, 800, 50);
         this.add(this.frame);
 
         this.line = this.scene.add.graphics();
-        this.line.fillStyle(0xda6b62, 1)
+        this.line.fillStyle(0x000000, 1)
         this.line.fillRect(-100, 150, 200, 4)
         this.add(this.line);
 
@@ -42,7 +42,7 @@ export class CTA extends Phaser.GameObjects.Container {
         this.ctaText1 = this.scene.add.text(0, -275, this.scene.text.texts[0].ctaTxt1, {
             fontFamily: "UberMoveMedium",
             fontSize: 20,
-            fill: "#ffffff",
+            fill: "#000000",
             align: "center",
         });
         this.ctaText1.setOrigin(0.5);
@@ -62,7 +62,7 @@ export class CTA extends Phaser.GameObjects.Container {
         this.ctaText3 = this.scene.add.text(0, 250, this.scene.text.texts[0].ctaTxt3, {
             fontFamily: "UberMoveMedium",
             fontSize: 40,
-            fill: "#c2c2c2",
+            fill: "#000000",
             align: "center",
         });
         this.ctaText3.setOrigin(0.5);
@@ -71,20 +71,11 @@ export class CTA extends Phaser.GameObjects.Container {
         this.count1 = this.scene.add.text(0, 75, this.countValue, {
             fontFamily: "UberMoveMedium",
             fontSize: 35,
-            fill: "#ffffff",
+            fill: "#000000",
             align: "center",
         });
         this.count1.setOrigin(0.5);
         this.add(this.count1);
-
-        this.count2 = this.scene.add.text(0, 350, this.countValue, {
-            fontFamily: "UberMoveMedium",
-            fontSize: 35,
-            fill: "#da6b62",
-            align: "center",
-        });
-        this.count2.setOrigin(0.5);
-        this.add(this.count2);
 
         // this.playBtn.setInteractive();
         // this.playBtn.on("pointerdown", () => {
@@ -114,13 +105,12 @@ export class CTA extends Phaser.GameObjects.Container {
         if (this.visible) return;
         this.visible = true;
         // this.scene.hideUI();
-        this.count2.setText(this.scene.gamePlay.score)
+        this.count1.setText(this.scene.gamePlay.score)
 
         this.alpha = 0;
         this.logo.alpha = 0;
         this.ctaText3.alpha = 0;
         this.count1.alpha = 0;
-        this.count2.alpha = 0;
 
         this.scene.tweens.add({
             targets: this,
@@ -156,13 +146,7 @@ export class CTA extends Phaser.GameObjects.Container {
                                     ease: "Linear",
                                     duration: 200,
                                     onComplete: () => {
-                                        this.scene.tweens.add({
-                                            targets: this.count2,
-                                            alpha: { from: 0, to: 1 },
-                                            scale: { from: 0, to: this.count2.scale },
-                                            ease: "Linear",
-                                            duration: 200,
-                                        })
+
                                     }
                                 })
                             }
