@@ -15,5 +15,10 @@ module.exports = {
                 loader: "babel-loader"
             }
         }]
-    }
+    },
+    resolve: {
+        alias: {
+            phaser: path.resolve(__dirname, '../../node_modules/phaser'),
+        },
+    },
 };
