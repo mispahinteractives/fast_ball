@@ -36,7 +36,7 @@ export class CTA extends Phaser.GameObjects.Container {
         this.line.fillRect(-100, 150, 200, 4)
         this.add(this.line);
 
-        this.logo = this.scene.add.sprite(0, -175, "sheet", 'logo').setOrigin(0.5).setScale(0.5);
+        this.logo = this.scene.add.sprite(0, -175, "sheet", 'logo').setOrigin(0.5).setScale(0.8);
         this.add(this.logo);
 
         this.ctaText3 = this.scene.add.text(0, 250, this.scene.text.texts[0].ctaTxt3, {

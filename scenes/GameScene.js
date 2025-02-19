@@ -14,6 +14,7 @@ import config from '../config.js';
 import {
     GamePlay
 } from '../objects/game-play.js';
+import { Intro } from '../objects/intro.js';
 
 let dimensions = {}
 export default class GameScene extends Phaser.Scene {
@@ -60,11 +61,14 @@ export default class GameScene extends Phaser.Scene {
         this.bg = this.add.sprite(0, 0, 'bg').setOrigin(0.5);
         this.gameGroup.add(this.bg);
 
-        this.logo = this.add.sprite(0, 0, "sheet", 'logo').setOrigin(0.5);
-        this.gameGroup.add(this.logo);
-
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.gamePlay);
+
+        this.intro = new Intro(this, 0, 0, this, dimensions);
+        this.gameGroup.add(this.intro);
+
+        this.logo = this.add.sprite(0, 0, "sheet", 'logo').setOrigin(0.5);
+        this.gameGroup.add(this.logo);
 
         this.cta = new CTA(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.cta);
@@ -99,7 +103,6 @@ export default class GameScene extends Phaser.Scene {
             volume: 1
         });
         this.bgm.play();
-        this.gamePlay.startGame();
     }
 
     hideUI() {
@@ -234,13 +237,12 @@ export default class GameScene extends Phaser.Scene {
 
         this.logo.x = dimensions.gameWidth / 2;
         this.logo.y = dimensions.topOffset + 60;
-        this.logo.setScale(.3);
 
         this.gamePlay.x = dimensions.gameWidth / 2;
         this.gamePlay.y = dimensions.gameHeight / 2 + 50;
 
         this.cta.adjust();
-
+        this.intro.adjust();
     }
 
     offsetMouse() {
