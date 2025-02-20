@@ -23,44 +23,47 @@ export class CTA extends Phaser.GameObjects.Container {
         this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
         this.graphicsGrp.add(this.graphics);
 
-        this.bg = this.scene.add.sprite(0, 0, 'bg').setOrigin(0.5);
+        this.bg = this.scene.add.sprite(0, 0, 'bg3').setOrigin(0.5);
         this.add(this.bg);
 
         this.frame = this.scene.add.graphics();
         this.frame.lineStyle(5, 0x000000)
-        this.frame.strokeRoundedRect(-225, -400, 450, 800, 50);
+        this.frame.strokeRoundedRect(-235, -450, 470, 900, 50);
         this.add(this.frame);
 
-        this.line = this.scene.add.graphics();
-        this.line.fillStyle(0x000000, 1)
-        this.line.fillRect(-100, 150, 200, 4)
+        this.line = this.scene.add.sprite(0, 100, "sheet", 'outline').setOrigin(0.5).setScale(.8);
         this.add(this.line);
 
-        this.logo = this.scene.add.sprite(0, -175, "sheet", 'logo').setOrigin(0.5).setScale(0.8);
+        this.logo = this.scene.add.sprite(0, -250, "sheet", 'logo').setOrigin(0.5).setScale(.8);
         this.add(this.logo);
 
-        this.ctaText3 = this.scene.add.text(0, 250, this.scene.text.texts[0].ctaTxt3, {
+        this.bestText = this.scene.add.text(0, 190, this.scene.text.texts[0].best, {
             fontFamily: "UberMoveMedium",
-            fontSize: 40,
+            fontSize: 50,
             fill: "#000000",
             align: "center",
         });
-        this.ctaText3.setOrigin(0.5);
-        this.add(this.ctaText3);
+        this.bestText.setOrigin(0.5);
+        this.add(this.bestText);
 
-        this.count1 = this.scene.add.text(0, 75, this.countValue, {
+        this.scoreText = this.scene.add.text(0, 0, this.countValue, {
             fontFamily: "UberMoveMedium",
-            fontSize: 35,
+            fontSize: 60,
             fill: "#000000",
             align: "center",
         });
-        this.count1.setOrigin(0.5);
-        this.add(this.count1);
+        this.scoreText.setOrigin(0.5);
+        this.add(this.scoreText);
 
-        // this.playBtn.setInteractive();
-        // this.playBtn.on("pointerdown", () => {
-        //     this.ctaClick(this.playBtn)
-        // });
+        this.playBtn = this.scene.add.sprite(0, 320, "sheet", 'play');
+        this.playBtn.setOrigin(0.5);
+        this.playBtn.setScale(0.3);
+        this.add(this.playBtn);
+
+        this.playBtn.setInteractive();
+        this.playBtn.on("pointerdown", () => {
+            this.ctaClick(this.playBtn)
+        });
 
         this.visible = false;
         this.userWon = true
@@ -68,9 +71,10 @@ export class CTA extends Phaser.GameObjects.Container {
     }
 
     ctaClick(sprite) {
+        console.log("klk");
         if (this.done) return;
         sprite.disableInteractive();
-        // onCTAClick();
+        this.scene.restart();
         this.done = true;
         this.scene.time.addEvent({
             delay: 10000,
@@ -80,7 +84,6 @@ export class CTA extends Phaser.GameObjects.Container {
             }
         })
     }
-
     show() {
         if (this.visible) return;
         this.visible = true;
@@ -89,13 +92,14 @@ export class CTA extends Phaser.GameObjects.Container {
             this.scene.sound.play('fail', { volume: 1 })
         } else {
             this.scene.sound.play('win', { volume: 1 })
-            this.count1.setText(this.scene.gamePlay.score)
+            this.scoreText.setText(this.scene.gamePlay.score)
         }
 
         this.alpha = 0;
         this.logo.alpha = 0;
-        this.ctaText3.alpha = 0;
-        this.count1.alpha = 0;
+        this.bestText.alpha = 0;
+        this.scoreText.alpha = 0;
+        this.playBtn.alpha = 0;
 
         this.scene.tweens.add({
             targets: this,
@@ -118,20 +122,36 @@ export class CTA extends Phaser.GameObjects.Container {
                             repeat: -1,
                         })
                         this.scene.tweens.add({
-                            targets: this.count1,
+                            targets: this.scoreText,
                             alpha: { from: 0, to: 1 },
-                            scale: { from: 0, to: this.count1.scale },
+                            scale: { from: 0, to: this.scoreText.scale },
                             ease: "Linear",
                             duration: 200,
                             onComplete: () => {
                                 this.scene.tweens.add({
-                                    targets: this.ctaText3,
+                                    targets: this.bestText,
                                     alpha: { from: 0, to: 1 },
-                                    scaleX: { from: 0, to: this.ctaText3.scaleX },
+                                    scaleX: { from: 0, to: this.bestText.scaleX },
                                     ease: "Linear",
                                     duration: 200,
                                     onComplete: () => {
-
+                                        this.scene.tweens.add({
+                                            targets: this.playBtn,
+                                            alpha: { from: 0, to: 1 },
+                                            scale: { from: 0, to: this.playBtn.scale },
+                                            ease: "Linear",
+                                            duration: 200,
+                                            onComplete: () => {
+                                                this.scene.tweens.add({
+                                                    targets: this.playBtn,
+                                                    scale: { from: this.playBtn.scale, to: this.playBtn.scale - 0.05 },
+                                                    ease: "Linear",
+                                                    duration: 700,
+                                                    yoyo: true,
+                                                    repeat: -1,
+                                                })
+                                            }
+                                        })
                                     }
                                 })
                             }

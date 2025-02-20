@@ -1,3 +1,5 @@
+import { Tutorial1 } from "./tutorial1.js";
+
 export class Intro extends Phaser.GameObjects.Container {
     constructor(scene, x, y, gameScene, dimensions) {
         super(scene);
@@ -20,7 +22,11 @@ export class Intro extends Phaser.GameObjects.Container {
 
         this.frame = this.scene.add.sprite(0, 0, "sheet", "panel");
         this.frame.setOrigin(0.5);
+        this.frame.setScale(1.1);
         this.add(this.frame);
+
+        this.tutorial1 = new Tutorial1(this.scene, 0, 0, this);
+        this.add(this.tutorial1);
 
         this.leftArrow = this.scene.add.sprite(-250, 0, "sheet", "left");
         this.leftArrow.setOrigin(0.5);
@@ -51,6 +57,7 @@ export class Intro extends Phaser.GameObjects.Container {
             this.changeTutorial(-1);
         });
 
+        this.visible = false;
     }
 
     changeTutorial(direction) {
@@ -107,7 +114,7 @@ export class Intro extends Phaser.GameObjects.Container {
     adjust() {
 
         this.x = this.dimensions.gameWidth / 2;
-        this.y = this.dimensions.gameHeight / 2 - 70;
+        this.y = this.dimensions.gameHeight / 2 - 50;
 
         if (this.graphics) this.graphics.destroy();
         this.graphics = this.scene.make.graphics().fillStyle(0x141414, .7).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);

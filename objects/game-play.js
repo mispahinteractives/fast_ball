@@ -15,36 +15,35 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     init() {
-        this.rectWidth = 450;
-        this.rectHeight = 800;
+        this.rectWidth = 470;
+        this.rectHeight = 900;
         this.speedMultiplier = 4;
         this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
         this.minX = -this.rectWidth / 2;
         this.maxX = this.rectWidth / 2;
-        this.minY = -this.rectHeight / 2;
+        this.minY = -this.rectHeight / 2 - 48;
         this.maxY = this.rectHeight / 2;
         this.lineInteracted = false;
         this.gameOver = false;
         this.score = 0;
 
         this.rectGraphics = this.scene.add.graphics();
-        this.rectGraphics.lineStyle(7, 0x000000, 1);
-        this.rectGraphics.strokeRoundedRect(-this.rectWidth / 2, -this.rectHeight / 2, this.rectWidth, this.rectHeight, 50);
+        this.rectGraphics.lineStyle(7, 0x000000, 0);
+        this.rectGraphics.strokeRoundedRect(this.minX, this.minY, this.rectWidth, this.rectHeight, 50);
         this.add(this.rectGraphics);
 
         this.scoreText = this.scene.add.text(0, -100, this.score, {
             fontFamily: "UberMoveMedium",
             fontSize: 300,
-            fill: "#4c7f68",
+            fill: "#458780",
             align: "center",
         });
         this.scoreText.setOrigin(0.5);
         this.add(this.scoreText);
 
-        this.ball = this.scene.add.sprite(0, 200, "sheet", 'brown');
+        this.ball = this.scene.add.sprite(0, 200, "sheet", 'ball');
         this.ball.setOrigin(0.5);
-        this.ball.setScale(1);
         this.add(this.ball);
 
         this.line = this.scene.add.sprite(0, 300, "sheet", 'line');
@@ -64,22 +63,23 @@ export class GamePlay extends Phaser.GameObjects.Container {
             if (gameObject === this.line) {
                 let clampedX = Phaser.Math.Clamp(dragX, this.minX + this.line.displayWidth / 2, this.maxX - this.line.displayWidth / 2);
                 this.line.x = clampedX;
-
+                this.emitter.visible = true;
                 this.lineInteracted = true;
             }
         });
 
         this.emitterBallSpeed = 100;
-        this.emitter = this.scene.add.particles(0, 0, "brown", {
+        this.emitter = this.scene.add.particles(0, 0, "ball", {
             lifespan: 400,
             scale: { start: 1, end: .6 },
-            alpha: { start: .9, end: 0 },
+            alpha: { start: .8, end: 0 },
             quantity: 1,
             frequency: 100,
             maxParticles: 10
         });
         this.emitter.startFollow(this.ball);
         this.add(this.emitter);
+        this.emitter.visible = false;
 
         this.staticBall = this.scene.add.sprite(-150, -250, "sheet", 'white');
         this.staticBall.setOrigin(0.5);
@@ -88,7 +88,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.staticBallWidth = this.staticBall.width;
         this.staticBallHeight = this.staticBall.height;
 
-        this.visible = false;
+        this.visible = true;
 
     }
 
