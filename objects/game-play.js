@@ -65,6 +65,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
                 this.line.x = clampedX;
                 this.emitter.visible = true;
                 this.lineInteracted = true;
+                this.scene.gamePlay.startGame();
             }
         });
 

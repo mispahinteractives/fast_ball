@@ -64,8 +64,8 @@ export default class GameScene extends Phaser.Scene {
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.gamePlay);
 
-        // this.intro = new Intro(this, 0, 0, this, dimensions);
-        // this.gameGroup.add(this.intro);
+        this.intro = new Intro(this, 0, 0, this, dimensions);
+        this.gameGroup.add(this.intro);
 
         this.logo = this.add.sprite(0, 0, "sheet", 'logo').setOrigin(0.5).setScale(0.4);
         this.gameGroup.add(this.logo);
@@ -104,7 +104,7 @@ export default class GameScene extends Phaser.Scene {
             volume: 1
         });
         this.bgm.play();
-        this.gamePlay.startGame();
+        this.intro.hide();
     }
 
     hideUI() {
@@ -243,7 +243,7 @@ export default class GameScene extends Phaser.Scene {
         this.gamePlay.y = dimensions.gameHeight / 2 + 50;
 
         this.cta.adjust();
-        // this.intro.adjust();
+        this.intro.adjust();
     }
 
     offsetMouse() {

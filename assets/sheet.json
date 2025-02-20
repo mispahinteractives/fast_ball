@@ -1,14 +1,6 @@
 {"frames": [
 
 {
-	"filename": "6",
-	"frame": {"x":2,"y":2,"w":1043,"h":886},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":10,"w":1043,"h":886},
-	"sourceSize": {"w":1043,"h":896}
-},
-{
 	"filename": "7",
 	"frame": {"x":1048,"y":691,"w":261,"h":99},
 	"rotated": false,
@@ -39,6 +31,14 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":39,"h":39},
 	"sourceSize": {"w":39,"h":39}
+},
+{
+	"filename": "frame",
+	"frame": {"x":2,"y":2,"w":1043,"h":886},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":10,"w":1043,"h":886},
+	"sourceSize": {"w":1043,"h":896}
 },
 {
 	"filename": "hand",
@@ -143,6 +143,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1578,"h":1132},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:5d31336925595b1fb3fa38c0eb24b323:b318396a8092580102737231e12d6c86:9c44ecd7e9a522007eaff2949095bc1d$"
+	"smartupdate": "$TexturePacker:SmartUpdate:367c1684d13b538e35caf13d8cbf3132:6b8b9165bbf0932124bec07774e3e768:9c44ecd7e9a522007eaff2949095bc1d$"
 }
 }

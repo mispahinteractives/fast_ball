@@ -20,80 +20,67 @@ export class Intro extends Phaser.GameObjects.Container {
         this.graphics = this.scene.make.graphics().fillStyle(0x141414, .3).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
         this.graphicsGrp.add(this.graphics);
 
-        this.frame = this.scene.add.sprite(0, 0, "sheet", "panel");
+        this.frame = this.scene.add.sprite(-20, 0, "sheet", "frame");
         this.frame.setOrigin(0.5);
-        this.frame.setScale(1.1);
+        this.frame.setScale(.55);
         this.add(this.frame);
 
-        this.tutorial1 = new Tutorial1(this.scene, 0, 0, this);
-        this.add(this.tutorial1);
-
-        this.leftArrow = this.scene.add.sprite(-250, 0, "sheet", "left");
-        this.leftArrow.setOrigin(0.5);
-        this.add(this.leftArrow);
-
-        this.rightArrow = this.scene.add.sprite(-250, 0, "sheet", "right");
-        this.rightArrow.setOrigin(0.5);
-        this.add(this.rightArrow);
-
-        this.closeBtn = this.scene.add.sprite(-250, 0, "sheet", "close");
-        this.closeBtn.setOrigin(0.5);
-        this.closeBtn.setScale(0.5);
-        this.add(this.closeBtn);
-
-        this.playBtn = this.scene.add.sprite(-250, 0, "sheet", "play");
-        this.playBtn.setOrigin(0.5);
-        this.playBtn.setScale(0.8);
-        this.add(this.playBtn);
-
-        this.playBtn.setInteractive().on("pointerdown", () => this.hide());
-        this.closeBtn.setInteractive().on("pointerdown", () => this.hide());
-        this.rightArrow.setInteractive().on("pointerdown", () => {
-            if (this.rightArrow.alpha === 0.5) return;
-            this.changeTutorial(1);
+        this.frameText = this.scene.add.text(70, -25, this.scene.text.texts[0].intro, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 35,
+            fill: "#733706",
+            align: "center",
         });
-        this.leftArrow.setInteractive().on("pointerdown", () => {
-            if (this.leftArrow.alpha === 0.5) return;
-            this.changeTutorial(-1);
+        this.frameText.setOrigin(0.5);
+        this.add(this.frameText);
+
+        this.play = this.scene.add.text(70, 180, this.scene.text.texts[0].play, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 45,
+            fill: "#ffffff",
+            align: "center",
         });
+        this.play.setOrigin(0.5);
+        this.add(this.play);
+
+        // this.back = this.scene.add.sprite(230, -160, "sheet", "back");
+        // this.back.setOrigin(0.5);
+        // this.back.setScale(.2);
+        // this.add(this.back);
 
         this.visible = false;
+        this.frame.alpha = 0;
+        this.frameText.alpha = 0;
+        this.play.alpha = 0;
+        this.show();
     }
 
-    changeTutorial(direction) {
-        if (this.tutorial1.runTween || this.tutorial2.runTween || this.tutorial3.runTween) return;
-
-        this.tutorial1.stopTimer();
-        this.tutorial2.stopTimer();
-        this.tutorial3.stopTimer();
-
-        let currentTutorial = this[`tutorial${this.level + 1}`];
-        let nextLevel = (this.level + direction + 3) % 3;
-        let nextTutorial = this[`tutorial${nextLevel + 1}`];
-
+    show() {
+        if (this.visible) return;
+        this.visible = true;
         this.scene.tweens.add({
-            targets: currentTutorial,
-            x: direction > 0 ? -500 : 500,
-            ease: "Cubic.easeOut",
-            duration: 300,
+            targets: this.frame,
+            x: { from: this.frame.x - 300, to: this.frame.x },
+            alpha: { from: 0, to: 1 },
+            ease: "Cubic.In",
+            duration: 250,
             onComplete: () => {
-                currentTutorial.hide();
-                currentTutorial.x = 500;
+                this.scene.tweens.add({
+                    targets: this.frameText,
+                    scale: { from: 0, to: this.frameText.scaleX },
+                    alpha: { from: 0, to: 1 },
+                    ease: "Linear",
+                    duration: 250,
+                });
+                this.scene.tweens.add({
+                    targets: this.play,
+                    scale: { from: 0, to: this.play.scaleX },
+                    alpha: { from: 0, to: 1 },
+                    ease: "Linear",
+                    duration: 250,
+                });
             }
         });
-
-        nextTutorial.x = direction > 0 ? 500 : -500;
-        nextTutorial.show();
-        this.scene.tweens.add({
-            targets: nextTutorial,
-            x: 0,
-            ease: "Cubic.easeIn",
-            duration: 300
-        });
-
-        this.level = nextLevel;
-        this.leftArrow.setAlpha(this.level === 0 ? 0.5 : 1);
-        this.rightArrow.setAlpha(this.level === 2 ? 0.5 : 1);
     }
 
     hide() {
@@ -106,7 +93,6 @@ export class Intro extends Phaser.GameObjects.Container {
             onComplete: () => {
                 this.visible = false;
                 this.alpha = 1;
-                this.scene.gamePlay.startGame();
             }
         });
     }
@@ -120,16 +106,5 @@ export class Intro extends Phaser.GameObjects.Container {
         this.graphics = this.scene.make.graphics().fillStyle(0x141414, .7).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
         this.graphicsGrp.add(this.graphics);
 
-        this.leftArrow.x = this.dimensions.leftOffset + 17 - this.x;
-        this.leftArrow.y = this.dimensions.gameHeight / 2 - 50 - this.y;
-
-        this.rightArrow.x = this.dimensions.rightOffset - 17 - this.x;
-        this.rightArrow.y = this.dimensions.gameHeight / 2 - 50 - this.y;
-
-        this.closeBtn.x = this.dimensions.leftOffset + 47 - this.x;
-        this.closeBtn.y = this.dimensions.bottomOffset - 47 - this.y;
-
-        this.playBtn.x = this.dimensions.rightOffset - 214 - this.x;
-        this.playBtn.y = this.dimensions.bottomOffset - 47 - this.y;
     }
 }
