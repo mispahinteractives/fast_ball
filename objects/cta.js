@@ -71,7 +71,6 @@ export class CTA extends Phaser.GameObjects.Container {
     }
 
     ctaClick(sprite) {
-        console.log("klk");
         if (this.done) return;
         sprite.disableInteractive();
         this.scene.restart();

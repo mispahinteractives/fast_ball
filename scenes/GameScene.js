@@ -84,7 +84,8 @@ export default class GameScene extends Phaser.Scene {
         this.gameResized();
 
         if (window.restart) {
-            this.gamePlay.startGame()
+            this.firstTouchDetected = false;
+            // this.gamePlay.startGame()
         }
 
         this.firstTouch();

@@ -14,11 +14,11 @@ export class Intro extends Phaser.GameObjects.Container {
     }
 
     init() {
-        this.graphicsGrp = this.scene.add.container(0, 0);
-        this.add(this.graphicsGrp);
+        // this.graphicsGrp = this.scene.add.container(0, 0);
+        // this.add(this.graphicsGrp);
 
-        this.graphics = this.scene.make.graphics().fillStyle(0x141414, .3).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
-        this.graphicsGrp.add(this.graphics);
+        // this.graphics = this.scene.make.graphics().fillStyle(0x141414, .3).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
+        // this.graphicsGrp.add(this.graphics);
 
         this.frame = this.scene.add.sprite(-20, 0, "sheet", "frame");
         this.frame.setOrigin(0.5);
@@ -100,11 +100,11 @@ export class Intro extends Phaser.GameObjects.Container {
     adjust() {
 
         this.x = this.dimensions.gameWidth / 2;
-        this.y = this.dimensions.gameHeight / 2 - 50;
+        this.y = this.dimensions.bottomOffset - 230;
 
-        if (this.graphics) this.graphics.destroy();
-        this.graphics = this.scene.make.graphics().fillStyle(0x141414, .7).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
-        this.graphicsGrp.add(this.graphics);
+        // if (this.graphics) this.graphics.destroy();
+        // this.graphics = this.scene.make.graphics().fillStyle(0x141414, .7).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
+        // this.graphicsGrp.add(this.graphics);
 
     }
 }
