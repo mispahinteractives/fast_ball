@@ -57,7 +57,6 @@ export class CTA extends Phaser.GameObjects.Container {
 
         this.playBtn = this.scene.add.sprite(0, 320, "sheet", 'play');
         this.playBtn.setOrigin(0.5);
-        this.playBtn.setScale(0.3);
         this.add(this.playBtn);
 
         this.playBtn.setInteractive();

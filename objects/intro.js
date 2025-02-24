@@ -30,10 +30,10 @@ export class Intro extends Phaser.GameObjects.Container {
             );
         this.graphicsGrp.add(this.graphics);
 
-        this.left = this.scene.add.sprite(0, -250, "sheet", "tutorial/left").setOrigin(0.5).setScale(0.4);
-        this.right = this.scene.add.sprite(0, -250, "sheet", "tutorial/right").setOrigin(0.5).setScale(0.4);
-        this.playBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/play").setOrigin(0.5).setScale(0.4);
-        this.closeBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/close").setOrigin(0.5).setScale(0.4);
+        this.left = this.scene.add.sprite(0, -250, "sheet", "tutorial/left").setOrigin(0.5)
+        this.right = this.scene.add.sprite(0, -250, "sheet", "tutorial/right").setOrigin(0.5)
+        this.playBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/play").setOrigin(0.5)
+        this.closeBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/close").setOrigin(0.5)
 
         this.add([this.left, this.right, this.playBtn, this.closeBtn]);
 

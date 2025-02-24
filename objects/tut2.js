@@ -17,7 +17,6 @@ export class Tut2 extends Phaser.GameObjects.Container {
     init() {
         this.frame = this.scene.add.sprite(0, -50, "frame");
         this.frame.setOrigin(0.5);
-        this.frame.setScale(.4);
         this.add(this.frame);
 
         let xPos = [-17, 1.7, 21];
@@ -26,7 +25,6 @@ export class Tut2 extends Phaser.GameObjects.Container {
         for (let i = 0; i < xPos.length; i++) {
             let dot = this.scene.add.sprite(xPos[i], yPos[i] + 200, "sheet", "tutorial/white")
                 .setOrigin(0.5)
-                .setScale(0.4)
             this.add(dot);
 
             if (i == 1) {
