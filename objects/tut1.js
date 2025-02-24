@@ -1,6 +1,6 @@
 import config from "../config.js";
 
-export class GamePlay extends Phaser.GameObjects.Container {
+export class Tut1 extends Phaser.GameObjects.Container {
     constructor(scene, x, y, gameScene, dimensions) {
         super(scene);
         this.scene = scene;
@@ -15,59 +15,59 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     init() {
-        this.rectWidth = 470;
-        this.rectHeight = 900;
+        this.frame = this.scene.add.sprite(0, -50, "frame");
+        this.frame.setOrigin(0.5);
+        this.frame.setScale(.4);
+        this.add(this.frame);
+
+        let xPos = [-17, 1.7, 21];
+        let yPos = [0, 0.3, 0.5];
+
+        for (let i = 0; i < xPos.length; i++) {
+            let dot = this.scene.add.sprite(xPos[i], yPos[i] + 200, "sheet", "tutorial/white")
+                .setOrigin(0.5)
+                .setScale(0.4)
+            this.add(dot);
+
+            if (i == 0) {
+                dot.setFrame("tutorial/white")
+            } else {
+                dot.setFrame("tutorial/brown")
+            }
+        }
+
+        this.rectWidth = this.frame.displayWidth - 30;
+        this.rectHeight = this.frame.displayHeight - 25;
         this.speedMultiplier = 4;
         this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
-        this.minX = -this.rectWidth / 2;
+        this.minX = -this.rectWidth / 2 + 3;
         this.maxX = this.rectWidth / 2;
-        this.minY = -this.rectHeight / 2 - 48;
+        this.minY = -this.rectHeight / 2 - 49;
         this.maxY = this.rectHeight / 2;
         this.lineInteracted = false;
         this.gameOver = false;
-        this.score = 0;
 
         this.rectGraphics = this.scene.add.graphics();
         this.rectGraphics.lineStyle(7, 0x000000, 0);
-        this.rectGraphics.strokeRoundedRect(this.minX, this.minY, this.rectWidth, this.rectHeight, 50);
+        this.rectGraphics.strokeRoundedRect(this.minX, this.minY, this.rectWidth, this.rectHeight, 20);
         this.add(this.rectGraphics);
 
-        this.scoreText = this.scene.add.text(0, -100, this.score, {
-            fontFamily: "UberMoveMedium",
-            fontSize: 300,
-            fill: "#458780",
-            align: "center",
-        });
-        this.scoreText.setOrigin(0.5);
-        this.add(this.scoreText);
-
-        this.ball = this.scene.add.sprite(0, 200, "sheet", 'ball');
+        this.ball = this.scene.add.sprite(0, 50, "sheet", 'ball');
         this.ball.setOrigin(0.5);
         this.add(this.ball);
 
-        this.line = this.scene.add.sprite(0, 300, "sheet", 'line');
+        this.line = this.scene.add.sprite(-100, 100, "sheet", 'line');
         this.line.setOrigin(0.5);
+        this.line.setScale(0.8);
         this.add(this.line);
 
-        this.outline = this.scene.add.sprite(0, 350, "sheet", 'outline');
+        this.outline = this.scene.add.sprite(0, 150, "sheet", 'outline');
         this.outline.setOrigin(0.5);
+        this.outline.setScale(0.9);
         this.add(this.outline);
 
-        this.line.setInteractive();
-        this.scene.input.setDraggable(this.line);
         this.lineInteracted = false;
-
-        this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-            this.scene.firstTouchEvent(this.scene);
-            if (gameObject === this.line) {
-                let clampedX = Phaser.Math.Clamp(dragX, this.minX + this.line.displayWidth / 2, this.maxX - this.line.displayWidth / 2);
-                this.line.x = clampedX;
-                this.emitter.visible = true;
-                this.lineInteracted = true;
-                this.startGame();
-            }
-        });
 
         this.emitterBallSpeed = 100;
         this.emitter = this.scene.add.particles(0, 0, "ball", {
@@ -82,20 +82,68 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.add(this.emitter);
         this.emitter.visible = false;
 
-        this.staticBall = this.scene.add.sprite(-150, -250, "sheet", 'white');
+        this.staticBall = this.scene.add.sprite(-100, -250, "sheet", 'white');
         this.staticBall.setOrigin(0.5);
         this.add(this.staticBall);
+        this.staticBall.visible = false;
 
         this.staticBallWidth = this.staticBall.width;
         this.staticBallHeight = this.staticBall.height;
 
-        this.visible = true;
+        this.hand = this.scene.add.sprite(0, 180, "sheet", 'hand');
+        this.hand.setOrigin(0.5);
+        this.hand.setScale(0.6);
+        this.hand.angle = 120;
+        this.add(this.hand);
+        this.hand.visible = false;
 
+        this.tutorialText = this.scene.add.text(0, 310, this.scene.text.texts[0].intro1, {
+            fontFamily: "UberMoveMedium",
+            fontSize: 33,
+            fill: "#ffffff",
+            align: "center",
+            // stroke: "#c00b00",
+            // strokeThickness: 4,
+        })
+        this.tutorialText.setOrigin(0.5);
+        this.add(this.tutorialText);
+        this.tutorialText.visible = false;
+
+        this.visible = false;
+    }
+
+    showHint() {
+        this.hand.visible = true;
+        this.scene.tweens.add({
+            targets: this.line,
+            x: { from: this.minX + this.line.displayWidth / 2, to: this.maxX - this.line.displayWidth / 2 },
+            ease: "Linear",
+            duration: 800,
+            yoyo: true,
+            repeat: -1,
+            onUpdate: () => {
+                this.hand.x = this.line.x + 30
+            }
+        });
     }
 
     startGame() {
-        this.gameStarted = true;
+        this.showHint()
         this.visible = true;
+        this.tutorialText.visible = true;
+        this.scene.tweens.add({
+            targets: this.tutorialText,
+            scale: { from: 0, to: 1 },
+            ease: "Linear",
+            duration: 200,
+        });
+    }
+
+    hide() {
+        if (!this.visible) return;
+        this.runTween = false;
+        this.visible = false;
+        this.x = 0
     }
     update() {
         if (!this.gameStarted) return;
@@ -104,7 +152,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
         if (this.lineInteracted && this.ballVelocityX === 0) {
             this.ballVelocityX = 2 * this.speedMultiplier;
         }
-
         this.ball.x += this.ballVelocityX;
         this.ball.y += this.ballVelocityY;
 
@@ -115,12 +162,10 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         if (this.ball.y - this.ball.displayHeight / 2 <= this.minY || this.ball.y + this.ball.displayHeight / 2 >= this.maxY) {
             this.ballVelocityY *= -1;
-            this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
         if (this.ball.x - this.ball.displayWidth / 2 <= this.minX || this.ball.x + this.ball.displayWidth / 2 >= this.maxX) {
             this.ballVelocityX *= -1;
-            this.triggerHitEmitter(this.ball.x, this.ball.y);
         }
 
         let currentTime = this.scene.time.now; // Get the current timestamp
@@ -136,7 +181,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         if (distance < this.ball.displayWidth) {
             this.staticBall.destroy();
-            this.updateScore();
 
             let randomX = Phaser.Math.Between(this.minX + 50, this.maxX - 50);
             let randomY = Phaser.Math.Between(this.minY + 50, this.maxY - 350);
@@ -160,7 +204,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
         if (this.ballVelocityX === 0) {
             this.startLineMovement();
         }
-        this.triggerHitEmitter(this.ball.x, this.ball.y);
         this.ballVelocityY *= -1;
     }
 
@@ -214,14 +257,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         }
     }
 
-    updateScore() {
-        this.scene.sound.play('bonus', { volume: .4 })
-        this.score += 1;
-        this.scoreText.setText(this.score);
-    }
-
     showFail() {
-        this.triggerHitEmitter(this.ball.x, this.ball.y);
         this.gameOver = true;
         console.log("FAIL! The ball has hit the bottom.");
         this.ballVelocityX = 0;
@@ -232,26 +268,5 @@ export class GamePlay extends Phaser.GameObjects.Container {
         setTimeout(() => {
             this.scene.cta.show();
         }, 500);
-    }
-
-    triggerHitEmitter(x, y) {
-        if (this.scene.firstTouchDetected) {
-            this.scene.sound.play('bounce', { volume: 1 })
-        }
-        let hitEmitter = this.scene.add.particles(x, y, "square", {
-            speed: 80,
-            lifespan: 600,
-            scale: { start: .8, end: .3 },
-            alpha: { start: 1, end: .5 },
-            quantity: 6,
-            frequency: 0,
-            maxParticles: 6,
-            angle: { min: 0, max: 360 },
-            gravityY: 100,
-            collide: true,
-            bounce: 0.8
-        });
-
-        this.add(hitEmitter);
     }
 }

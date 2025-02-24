@@ -105,7 +105,7 @@ export default class GameScene extends Phaser.Scene {
             volume: 1
         });
         this.bgm.play();
-        this.intro.hide();
+        // this.intro.hide();
     }
 
     hideUI() {
@@ -128,6 +128,8 @@ export default class GameScene extends Phaser.Scene {
     update(time, deltaTime) {
         super.update();
         this.gamePlay.update();
+        this.intro.tut2.update();
+        this.intro.tut3.update();
     }
 
     setGameScale() {

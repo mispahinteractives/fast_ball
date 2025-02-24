@@ -18,12 +18,8 @@ export default class Preload extends Phaser.Scene {
 
         var sheet = element.sheet;
 
-        var styles1 = '@font-face { font-family: "PepsiOwners_Regular"; src: url("fonts/PepsiOwners_Regular.ttf") format("truetype"); }\n';
-        var styles2 = '@font-face { font-family: "PepsiOwners_Extended"; src: url("fonts/PepsiOwners_Extended.ttf") format("truetype"); }\n';
         var styles3 = '@font-face { font-family: "UberMoveMedium"; src: url("fonts/UberMoveMedium.otf") format("opentype"); }\n';
 
-        sheet.insertRule(styles1, 0);
-        sheet.insertRule(styles2, 0);
         sheet.insertRule(styles3, 0);
 
     }
@@ -34,6 +30,7 @@ export default class Preload extends Phaser.Scene {
         this.load.image('bg3', 'assets/bg3.png');
         this.load.image('ball', 'assets/ball.png');
         this.load.image('square', 'assets/square.png');
+        this.load.image('frame', 'assets/frame.png');
         this.load.atlas('sheet', 'assets/sheet.png', 'assets/sheet.json');
 
         this.load.script('webfont', 'lib/webfont.js');
@@ -71,7 +68,7 @@ export default class Preload extends Phaser.Scene {
         WebFont.load({
 
             custom: {
-                families: ['PepsiOwners_Regular', 'PepsiOwners_Extended', 'UberMoveMedium']
+                families: ['UberMoveMedium']
 
             },
             active: function() {
