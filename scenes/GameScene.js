@@ -58,11 +58,14 @@ export default class GameScene extends Phaser.Scene {
         this.gameGroup = this.add.container();
         this.superGroup.add(this.gameGroup);
 
-        this.bg = this.add.sprite(0, 0, 'bg').setOrigin(0.5);
+        this.bg = this.add.sprite(0, 0, 'game_bg').setOrigin(0.5);
         this.gameGroup.add(this.bg);
 
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.gamePlay);
+
+        this.introBg = this.add.sprite(0, 0, 'game_bg').setOrigin(0.5);
+        this.gameGroup.add(this.introBg);
 
         this.intro = new Intro(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.intro);
@@ -238,6 +241,14 @@ export default class GameScene extends Phaser.Scene {
 
         this.bg.x = dimensions.gameWidth / 2;
         this.bg.y = dimensions.gameHeight / 2;
+
+        scaleX = dimensions.actualWidth / this.bg.displayWidth;
+        scaleY = dimensions.actualHeight / this.bg.displayHeight;
+        scale = Math.max(scaleX, scaleY);
+        this.introBg.setScale(scale);
+
+        this.introBg.x = dimensions.gameWidth / 2;
+        this.introBg.y = dimensions.gameHeight / 2;
 
         this.logo.x = dimensions.gameWidth / 2 - 200;
         this.logo.y = dimensions.topOffset + 80;

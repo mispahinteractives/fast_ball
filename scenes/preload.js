@@ -18,16 +18,17 @@ export default class Preload extends Phaser.Scene {
 
         var sheet = element.sheet;
 
-        var styles3 = '@font-face { font-family: "UberMoveMedium"; src: url("fonts/UberMoveMedium.otf") format("opentype"); }\n';
+        var styles1 = '@font-face { font-family: "UberMoveMedium"; src: url("fonts/UberMoveMedium.otf") format("opentype"); }\n';
 
-        sheet.insertRule(styles3, 0);
+        sheet.insertRule(styles1, 0);
 
     }
 
     preload() {
         // Images
         this.load.image('bg', 'assets/bg.png');
-        this.load.image('bg3', 'assets/bg3.png');
+        this.load.image('game_bg', 'assets/game_bg.png');
+        this.load.image('bg1', 'assets/bg1.png');
         this.load.image('ball', 'assets/ball.png');
         this.load.image('square', 'assets/square.png');
         this.load.image('frame', 'assets/frame.png');

@@ -107,7 +107,7 @@ export class Tut2 extends Phaser.GameObjects.Container {
         this.add(this.hand);
         this.hand.visible = false;
 
-        this.tutorialText = this.scene.add.text(0, 310, this.scene.text.texts[0].intro2, {
+        this.tutorialText = this.scene.add.text(60, 310, this.scene.text.texts[0].intro2, {
             fontFamily: "UberMoveMedium",
             fontSize: 30,
             fill: "#ffffff",

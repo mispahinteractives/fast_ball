@@ -17,23 +17,11 @@ export class Intro extends Phaser.GameObjects.Container {
 
     init() {
         this.level = 0;
-        this.graphicsGrp = this.scene.add.container(0, 0);
-        this.add(this.graphicsGrp);
-
-        this.graphics = this.scene.make.graphics()
-            .fillStyle(0x141414, 0.3)
-            .fillRect(
-                this.dimensions.leftOffset,
-                this.dimensions.topOffset,
-                this.dimensions.actualWidth,
-                this.dimensions.actualHeight
-            );
-        this.graphicsGrp.add(this.graphics);
-
         this.left = this.scene.add.sprite(0, -250, "sheet", "tutorial/left").setOrigin(0.5)
         this.right = this.scene.add.sprite(0, -250, "sheet", "tutorial/right").setOrigin(0.5)
-        this.playBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/play").setOrigin(0.5)
+        this.playBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/play").setOrigin(0.5).setScale(.9)
         this.closeBtn = this.scene.add.sprite(0, 0, "sheet", "tutorial/close").setOrigin(0.5)
+        this.closeBtn.visible = false;
 
         this.add([this.left, this.right, this.playBtn, this.closeBtn]);
 
@@ -55,6 +43,11 @@ export class Intro extends Phaser.GameObjects.Container {
             if (this.left.alpha === 0.5) return;
             this.changeTutorial(-1);
         });
+
+        this.char = this.scene.add.sprite(-220, 60, "sheet", "character");
+        this.char.setOrigin(0.5);
+        this.char.setScale(0.5);
+        this.add(this.char);
 
         this.visible = false;
         this.show();
@@ -90,6 +83,8 @@ export class Intro extends Phaser.GameObjects.Container {
         }
 
         this.add(nextTutorial);
+
+        this.bringToTop(this.char)
         this[`tut${nextLevel + 1}`] = nextTutorial;
 
         nextTutorial.setPosition(
@@ -124,10 +119,22 @@ export class Intro extends Phaser.GameObjects.Container {
         this.left.setAlpha(0.5);
         this.right.setAlpha(1);
         this.tut1.startGame();
+        setTimeout(() => {
+            this.scene.tweens.add({
+                targets: this.char,
+                y: { from: this.char.y + 400, to: this.char.y },
+                ease: "Linear",
+                duration: 200,
+                onComplete: () => {
+
+                }
+            });
+        }, 20);
     }
 
     hide() {
         if (!this.visible) return;
+        this.scene.introBg.visible = false;
         this.scene.tweens.add({
             targets: this,
             alpha: { from: 1, to: 0 },
@@ -145,24 +152,13 @@ export class Intro extends Phaser.GameObjects.Container {
         this.x = this.dimensions.gameWidth / 2;
         this.y = this.dimensions.bottomOffset - 270;
 
-        if (this.graphics) this.graphics.destroy();
-        this.graphics = this.scene.make.graphics()
-            .fillStyle(0x141414, 0.8)
-            .fillRect(
-                this.dimensions.leftOffset - this.x,
-                this.dimensions.topOffset - this.y,
-                this.dimensions.actualWidth,
-                this.dimensions.actualHeight
-            );
-        this.graphicsGrp.add(this.graphics);
-
         this.left.setPosition(this.dimensions.leftOffset + 17 - this.x, this.dimensions.gameHeight / 2 - 50 - this.y);
         this.right.setPosition(this.dimensions.rightOffset - 17 - this.x, this.dimensions.gameHeight / 2 - 50 - this.y);
         this.closeBtn.setPosition(this.dimensions.leftOffset + 48 - this.x, this.dimensions.bottomOffset - 47 - this.y);
-        this.playBtn.setPosition(this.dimensions.rightOffset - 214 - this.x, this.dimensions.bottomOffset - 47 - this.y);
+        this.playBtn.setPosition(this.dimensions.rightOffset - 192 - this.x, this.dimensions.bottomOffset - 44 - this.y);
 
         [this.tut1, this.tut2, this.tut3].forEach(tut => {
-            tut.setPosition(this.dimensions.gameWidth / 2 - this.x, this.dimensions.gameHeight / 2 - this.y);
+            tut.setPosition(this.dimensions.gameWidth / 2 - this.x, this.dimensions.gameHeight / 2 - this.y - 50);
         });
     }
 }

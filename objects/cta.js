@@ -17,19 +17,8 @@ export class CTA extends Phaser.GameObjects.Container {
 
         this.countValue = 0;
 
-        this.graphicsGrp = this.scene.add.container(0, 0);
-        this.add(this.graphicsGrp);
-
-        this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset, this.dimensions.topOffset, this.dimensions.actualWidth, this.dimensions.actualHeight);
-        this.graphicsGrp.add(this.graphics);
-
-        this.bg = this.scene.add.sprite(0, 0, 'bg3').setOrigin(0.5);
+        this.bg = this.scene.add.sprite(0, 0, 'bg1').setOrigin(0.5);
         this.add(this.bg);
-
-        this.frame = this.scene.add.graphics();
-        this.frame.lineStyle(5, 0x000000)
-        this.frame.strokeRoundedRect(-235, -450, 470, 900, 50);
-        this.add(this.frame);
 
         this.line = this.scene.add.sprite(0, 100, "sheet", 'outline').setOrigin(0.5).setScale(.8);
         this.add(this.line);
@@ -172,10 +161,6 @@ export class CTA extends Phaser.GameObjects.Container {
 
         this.bg.x = this.dimensions.gameWidth / 2 - this.x;
         this.bg.y = this.dimensions.gameHeight / 2 - this.y;
-
-        if (this.graphics) this.graphics.destroy();
-        this.graphics = this.scene.make.graphics().fillStyle(0x141414, 1).fillRect(this.dimensions.leftOffset - this.x, this.dimensions.topOffset - this.y, this.dimensions.actualWidth, this.dimensions.actualHeight);
-        this.graphicsGrp.add(this.graphics);
     }
 
     hide() {

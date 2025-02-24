@@ -50,7 +50,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.line.setOrigin(0.5);
         this.add(this.line);
 
-        this.outline = this.scene.add.sprite(0, 350, "sheet", 'outline');
+        this.outline = this.scene.add.sprite(-5, 350, "sheet", 'outline');
         this.outline.setOrigin(0.5);
         this.add(this.outline);
 
