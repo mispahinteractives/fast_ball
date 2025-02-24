@@ -89,13 +89,22 @@ export class GamePlay extends Phaser.GameObjects.Container {
         this.staticBallWidth = this.staticBall.width;
         this.staticBallHeight = this.staticBall.height;
 
-        this.visible = true;
+        this.visible = false;
 
+    }
+
+    show() {
+        this.visible = true;
+        this.scene.tweens.add({
+            targets: this,
+            alpha: { from: 0, to: 1 },
+            ease: "Linear",
+            duration: 250,
+        });
     }
 
     startGame() {
         this.gameStarted = true;
-        this.visible = true;
     }
     update() {
         if (!this.gameStarted) return;

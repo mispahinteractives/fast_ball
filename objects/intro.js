@@ -136,6 +136,7 @@ export class Intro extends Phaser.GameObjects.Container {
             onComplete: () => {
                 this.visible = false;
                 this.alpha = 1;
+                this.scene.gamePlay.show();
             }
         });
     }
