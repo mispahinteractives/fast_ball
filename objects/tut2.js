@@ -36,7 +36,7 @@ export class Tut2 extends Phaser.GameObjects.Container {
 
         this.rectWidth = this.frame.displayWidth - 50;
         this.rectHeight = this.frame.displayHeight - 40;
-        this.speedMultiplier = 4;
+        this.speedMultiplier = 1;
         this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
         this.minX = -this.rectWidth / 2;
@@ -55,7 +55,7 @@ export class Tut2 extends Phaser.GameObjects.Container {
         this.ball.setOrigin(0.5);
         this.add(this.ball);
 
-        this.line = this.scene.add.sprite(0, 100, "sheet", 'line');
+        this.line = this.scene.add.sprite(0, 110, "sheet", 'line');
         this.line.setOrigin(0.5);
         this.line.setScale(0.8);
         this.add(this.line);
@@ -107,7 +107,7 @@ export class Tut2 extends Phaser.GameObjects.Container {
         this.add(this.hand);
         this.hand.visible = false;
 
-        this.tutorialText = this.scene.add.text(60, 310, this.scene.text.texts[0].intro2, {
+        this.tutorialText = this.scene.add.text(0, 310, this.scene.text.texts[0].intro2, {
             fontFamily: "UberMoveMedium",
             fontSize: 30,
             fill: "#ffffff",
@@ -187,7 +187,7 @@ export class Tut2 extends Phaser.GameObjects.Container {
         let dx = this.ball.x - this.staticBall.x;
         let dy = this.ball.y - this.staticBall.y;
         let distance = Math.sqrt(dx * dx + dy * dy);
-
+        console.log(this.ballVelocityX);
         if (distance < this.ball.displayWidth) {
             this.staticBall.destroy();
 

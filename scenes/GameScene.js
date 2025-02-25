@@ -58,7 +58,7 @@ export default class GameScene extends Phaser.Scene {
         this.gameGroup = this.add.container();
         this.superGroup.add(this.gameGroup);
 
-        this.bg = this.add.sprite(0, 0, 'game_bg').setOrigin(0.5);
+        this.bg = this.add.sprite(0, 0, 'bg').setOrigin(0.5);
         this.gameGroup.add(this.bg);
 
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
@@ -72,7 +72,7 @@ export default class GameScene extends Phaser.Scene {
 
         this.logo = this.add.sprite(0, 0, "sheet", 'logo').setOrigin(0.5).setScale(0.4);
         this.gameGroup.add(this.logo);
-        // this.logo.alpha = 0;
+        this.logo.visible = false
 
         this.cta = new CTA(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.cta);
@@ -138,12 +138,10 @@ export default class GameScene extends Phaser.Scene {
     setGameScale() {
         let scaleX = dimensions.fullWidth / dimensions.gameWidth;
         let scaleY = dimensions.fullHeight / dimensions.gameHeight;
-
         this.gameScale = (scaleX < scaleY) ? scaleX : scaleY;
 
         dimensions.actualWidth = this.game.canvas.width / this.gameScale;
         dimensions.actualHeight = this.game.canvas.height / this.gameScale;
-
         dimensions.leftOffset = -(dimensions.actualWidth - dimensions.gameWidth) / 2;
         dimensions.rightOffset = dimensions.gameWidth - dimensions.leftOffset;
         dimensions.topOffset = -(dimensions.actualHeight - dimensions.gameHeight) / 2;
@@ -254,9 +252,7 @@ export default class GameScene extends Phaser.Scene {
         this.logo.x = dimensions.gameWidth / 2 - 200;
         this.logo.y = dimensions.topOffset + 80;
 
-        this.gamePlay.x = dimensions.gameWidth / 2;
-        this.gamePlay.y = dimensions.gameHeight / 2 + 50;
-
+        this.gamePlay.adjust();
         this.cta.adjust();
         this.intro.adjust();
     }

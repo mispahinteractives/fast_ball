@@ -95,9 +95,9 @@ export class Tut1 extends Phaser.GameObjects.Container {
         this.add(this.hand);
         this.hand.visible = false;
 
-        this.tutorialText = this.scene.add.text(60, 345, this.scene.text.texts[0].intro1, {
+        this.tutorialText = this.scene.add.text(0, 310, this.scene.text.texts[0].intro1, {
             fontFamily: "UberMoveMedium",
-            fontSize: 33,
+            fontSize: 30,
             fill: "#ffffff",
             align: "center",
             // stroke: "#c00b00",
@@ -106,8 +106,6 @@ export class Tut1 extends Phaser.GameObjects.Container {
         this.tutorialText.setOrigin(0.5);
         this.add(this.tutorialText);
         this.tutorialText.visible = false;
-
-        this.visible = false;
     }
 
     showHint() {
@@ -141,7 +139,6 @@ export class Tut1 extends Phaser.GameObjects.Container {
         if (!this.visible) return;
         this.runTween = false;
         this.visible = false;
-        this.x = 0
     }
     update() {
         if (!this.gameStarted) return;

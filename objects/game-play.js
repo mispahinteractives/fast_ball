@@ -15,12 +15,12 @@ export class GamePlay extends Phaser.GameObjects.Container {
     }
 
     init() {
-        this.rectWidth = 470;
-        this.rectHeight = 900;
-        this.speedMultiplier = 4;
+        this.rectWidth = this.dimensions.gameWidth;
+        this.rectHeight = this.dimensions.gameHeight;
+        this.speedMultiplier = 2.5;
         this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
-        this.minX = -this.rectWidth / 2;
+        this.minX = -(this.rectWidth / 2);
         this.maxX = this.rectWidth / 2;
         this.minY = -this.rectHeight / 2 - 48;
         this.maxY = this.rectHeight / 2;
@@ -30,7 +30,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
         this.rectGraphics = this.scene.add.graphics();
         this.rectGraphics.lineStyle(7, 0x000000, 0);
-        this.rectGraphics.strokeRoundedRect(this.minX, this.minY, this.rectWidth, this.rectHeight, 50);
+        this.rectGraphics.strokeRoundedRect(this.minX, this.minY, this.rectWidth, this.rectHeight, 0);
         this.add(this.rectGraphics);
 
         this.scoreText = this.scene.add.text(0, -100, this.score, {
@@ -101,17 +101,21 @@ export class GamePlay extends Phaser.GameObjects.Container {
             ease: "Linear",
             duration: 250,
         });
+
+        this.startGame();
     }
 
     startGame() {
         this.gameStarted = true;
     }
+
     update() {
         if (!this.gameStarted) return;
         if (this.gameOver) return;
 
         if (this.lineInteracted && this.ballVelocityX === 0) {
             this.ballVelocityX = 2 * this.speedMultiplier;
+            this.ballVelocityY = 2 * this.speedMultiplier;
         }
 
         this.ball.x += this.ballVelocityX;
@@ -245,7 +249,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
 
     triggerHitEmitter(x, y) {
         if (this.scene.firstTouchDetected) {
-            this.scene.sound.play('bounce', { volume: 1 })
+            // this.scene.sound.play('bounce', { volume: 1 })
         }
         let hitEmitter = this.scene.add.particles(x, y, "square", {
             speed: 80,
@@ -262,5 +266,21 @@ export class GamePlay extends Phaser.GameObjects.Container {
         });
 
         this.add(hitEmitter);
+    }
+
+    adjust() {
+        this.x = this.dimensions.gameWidth / 2;
+        this.y = this.dimensions.gameHeight / 2 + 50;
+
+        this.rectWidth = this.dimensions.actualWidth;
+        this.rectHeight = this.dimensions.actualHeight;
+        this.minX = -(this.rectWidth / 2);
+        this.maxX = this.rectWidth / 2;
+        this.minY = -this.rectHeight / 2 - 48;
+        this.maxY = this.rectHeight / 2;
+
+        this.rectGraphics.clear();
+        this.rectGraphics.lineStyle(7, 0x000000, 0);
+        this.rectGraphics.strokeRoundedRect(this.minX, this.minY, this.rectWidth, this.rectHeight, 0);
     }
 }

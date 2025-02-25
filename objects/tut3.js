@@ -36,7 +36,7 @@ export class Tut3 extends Phaser.GameObjects.Container {
 
         this.rectWidth = this.frame.displayWidth - 50;
         this.rectHeight = this.frame.displayHeight - 40;
-        this.speedMultiplier = 4;
+        this.speedMultiplier = 1.5;
         this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
         this.minX = -this.rectWidth / 2;
@@ -107,7 +107,7 @@ export class Tut3 extends Phaser.GameObjects.Container {
         this.add(this.hand);
         this.hand.visible = false;
 
-        this.tutorialText = this.scene.add.text(60, 310, this.scene.text.texts[0].intro3, {
+        this.tutorialText = this.scene.add.text(0, 310, this.scene.text.texts[0].intro3, {
             fontFamily: "UberMoveMedium",
             fontSize: 33,
             fill: "#ffffff",

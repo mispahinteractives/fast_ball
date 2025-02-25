@@ -47,12 +47,15 @@ export class Intro extends Phaser.GameObjects.Container {
         this.char.setOrigin(0.5);
         this.char.setScale(0.5);
         this.add(this.char);
+        this.char.visible = false;
 
         this.bringToTop(this.closeBtn)
         this.bringToTop(this.playBtn)
 
         this.visible = false;
-        this.show();
+        setTimeout(() => {
+            this.show();
+        }, 100);
     }
 
     changeTutorial(direction) {
@@ -71,7 +74,6 @@ export class Intro extends Phaser.GameObjects.Container {
         });
 
         let nextTutorial;
-        console.log(nextLevel);
         switch (nextLevel) {
             case 0:
                 nextTutorial = new Tut1(this.scene, 0, 0, this);
@@ -105,6 +107,7 @@ export class Intro extends Phaser.GameObjects.Container {
             ease: "Linear",
             duration: 300,
             onComplete: () => {
+                // this.adjust();
                 nextTutorial.startGame();
             }
         });
@@ -117,24 +120,13 @@ export class Intro extends Phaser.GameObjects.Container {
     show() {
         if (this.visible) return;
         this.visible = true;
+        this.tut1.startGame();
         this.tut1.setVisible(true);
         this.tut2.setVisible(false);
         this.tut3.setVisible(false);
         this.level = 0;
         this.left.setAlpha(0.5);
         this.right.setAlpha(1);
-        this.tut1.startGame();
-        setTimeout(() => {
-            this.scene.tweens.add({
-                targets: this.char,
-                y: { from: this.char.y + 400, to: this.char.y },
-                ease: "Linear",
-                duration: 200,
-                onComplete: () => {
-
-                }
-            });
-        }, 20);
     }
 
     hide() {
@@ -162,8 +154,14 @@ export class Intro extends Phaser.GameObjects.Container {
         this.closeBtn.setPosition(this.dimensions.leftOffset + 48 - this.x, this.dimensions.bottomOffset - 47 - this.y);
         this.playBtn.setPosition(this.dimensions.rightOffset - 210 - this.x, this.dimensions.bottomOffset - 47 - this.y);
 
-        [this.tut1, this.tut2, this.tut3].forEach(tut => {
-            tut.setPosition(this.dimensions.gameWidth / 2 - this.x, this.dimensions.gameHeight / 2 - this.y - 50);
-        });
+        this.tut1.x = this.dimensions.gameWidth / 2 - this.x;
+        this.tut1.y = this.dimensions.gameHeight / 2 - this.y;
+
+        this.tut2.x = this.dimensions.gameWidth / 2 - this.x
+        this.tut2.y = this.dimensions.gameHeight / 2 - this.y
+
+        this.tut3.x = this.dimensions.gameWidth / 2 - this.x;
+        this.tut3.y = this.dimensions.gameHeight / 2 - this.y;
+
     }
 }
