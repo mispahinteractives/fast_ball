@@ -17,7 +17,7 @@ export class CTA extends Phaser.GameObjects.Container {
 
         this.countValue = 0;
 
-        this.bg = this.scene.add.sprite(0, 0, 'bg1').setOrigin(0.5);
+        this.bg = this.scene.add.sprite(0, 0, 'game_bg').setOrigin(0.5);
         this.add(this.bg);
 
         this.line = this.scene.add.sprite(0, 100, "sheet", 'outline').setOrigin(0.5).setScale(.8);

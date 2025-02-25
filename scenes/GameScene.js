@@ -242,10 +242,11 @@ export default class GameScene extends Phaser.Scene {
         this.bg.x = dimensions.gameWidth / 2;
         this.bg.y = dimensions.gameHeight / 2;
 
-        scaleX = dimensions.actualWidth / this.bg.displayWidth;
-        scaleY = dimensions.actualHeight / this.bg.displayHeight;
-        scale = Math.max(scaleX, scaleY);
-        this.introBg.setScale(scale);
+        this.introBg.setScale(1);
+        let scaleX1 = dimensions.actualWidth / this.introBg.displayWidth;
+        let scaleY1 = dimensions.actualHeight / this.introBg.displayHeight;
+        let scale1 = Math.max(scaleX1, scaleY1);
+        this.introBg.setScale(scale1);
 
         this.introBg.x = dimensions.gameWidth / 2;
         this.introBg.y = dimensions.gameHeight / 2;
