@@ -64,7 +64,7 @@ export default class GameScene extends Phaser.Scene {
         this.gamePlay = new GamePlay(this, 0, 0, this, dimensions);
         this.gameGroup.add(this.gamePlay);
 
-        this.introBg = this.add.sprite(0, 0, 'game_bg').setOrigin(0.5);
+        this.introBg = this.add.sprite(0, 0, 'bg').setOrigin(0.5);
         this.gameGroup.add(this.introBg);
 
         this.intro = new Intro(this, 0, 0, this, dimensions);

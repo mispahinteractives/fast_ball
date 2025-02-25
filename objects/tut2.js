@@ -34,14 +34,14 @@ export class Tut2 extends Phaser.GameObjects.Container {
             }
         }
 
-        this.rectWidth = this.frame.displayWidth - 30;
-        this.rectHeight = this.frame.displayHeight - 25;
+        this.rectWidth = this.frame.displayWidth - 50;
+        this.rectHeight = this.frame.displayHeight - 40;
         this.speedMultiplier = 4;
         this.ballVelocityX = 0;
         this.ballVelocityY = 3 * this.speedMultiplier;
-        this.minX = -this.rectWidth / 2 + 3;
+        this.minX = -this.rectWidth / 2;
         this.maxX = this.rectWidth / 2;
-        this.minY = -this.rectHeight / 2 - 49;
+        this.minY = -this.rectHeight / 2 - 53;
         this.maxY = this.rectHeight / 2;
         this.lineInteracted = false;
         this.gameOver = false;
