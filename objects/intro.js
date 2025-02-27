@@ -43,12 +43,6 @@ export class Intro extends Phaser.GameObjects.Container {
             this.changeTutorial(-1);
         });
 
-        this.char = this.scene.add.sprite(-220, -20, "sheet", "character");
-        this.char.setOrigin(0.5);
-        this.char.setScale(0.5);
-        this.add(this.char);
-        this.char.visible = false;
-
         this.bringToTop(this.closeBtn)
         this.bringToTop(this.playBtn)
 
@@ -88,7 +82,6 @@ export class Intro extends Phaser.GameObjects.Container {
 
         this.add(nextTutorial);
 
-        this.bringToTop(this.char)
         this.bringToTop(this.closeBtn)
         this.bringToTop(this.playBtn)
 
