@@ -15,7 +15,7 @@ const config = {
         antialias: false,
 
     },
-    backgroundColor: 0x000000,
+    backgroundColor: 0xffffff,
     dom: {
         createContainer: true
     },

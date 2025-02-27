@@ -50,7 +50,7 @@ export default class GameScene extends Phaser.Scene {
         this.setGameScale();
 
         document.getElementById("loader").style.visibility = 'hidden'
-        document.getElementById("loader1").style.visibility = 'hidden'
+        document.getElementById("loader").style.visibility = 'hidden'
 
         this.text = string;
         // window.restart = true;
