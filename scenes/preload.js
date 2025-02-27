@@ -39,7 +39,7 @@ export default class Preload extends Phaser.Scene {
         this.canvasHeight = this.sys.game.canvas.height;
         this.timeStart = Date.now();
 
-        this.load.once('filecomplete-image-loading_bar_unfilled', () => {
+        this.load.once('filecomplete-image-bg', () => {
             this.bg = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2, 'bg');
             this.bg.setOrigin(0.5).setScale(1);
 
@@ -47,7 +47,9 @@ export default class Preload extends Phaser.Scene {
             let scaleY = this.canvasHeight / this.bg.height;
             let scale = Math.max(scaleX, scaleY);
             this.bg.setScale(scale);
+        });
 
+        this.load.once('filecomplete-image-loading_bar_unfilled', () => {
             this.bar = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2, 'loading_bar_unfilled');
             this.bar.setOrigin(0.5).setScale(.7);
 
@@ -58,6 +60,7 @@ export default class Preload extends Phaser.Scene {
             });
             this.loadingText.setOrigin(0.5);
         });
+
 
         this.load.once('filecomplete-image-loading_bar_filled', () => {
             this.fill = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2, 'loading_bar_filled');
