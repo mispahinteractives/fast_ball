@@ -27,17 +27,20 @@ export default class Preload extends Phaser.Scene {
         let scale = Math.max(scaleX, scaleY);
         this.bg.setScale(scale);
 
-        this.bar = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2, 'loading_bar_unfilled');
+        this.logo = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2 - 100, "sheet", 'logo');
+        this.logo.setOrigin(0.5).setScale(.8);
+
+        this.bar = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2 + 100, 'loading_bar_unfilled');
         this.bar.setOrigin(0.5).setScale(.7);
 
-        this.loadingText = this.add.text(this.canvasWidth / 2, this.canvasHeight / 2 - 100, "Loading...", {
+        this.loadingText = this.add.text(this.canvasWidth / 2, this.canvasHeight / 2 + 200, "Loading...", {
             fontFamily: "UberMoveMedium",
             fontSize: "32px",
             color: "#ffffff"
         });
         this.loadingText.setOrigin(0.5);
 
-        this.fill = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2, 'loading_bar_filled');
+        this.fill = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2 + 100, 'loading_bar_filled');
         this.fill.setOrigin(0.5).setScale(.7, .65);
         this.fill.orgWidth = this.fill.width;
 
