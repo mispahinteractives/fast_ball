@@ -11,8 +11,6 @@ export default class Preload extends Phaser.Scene {
         var sheet = element.sheet;
         var styles1 = '@font-face { font-family: "UberMoveMedium"; src: url("fonts/UberMoveMedium.otf") format("opentype"); }\n';
         sheet.insertRule(styles1, 0);
-        this.bg = this.add.sprite(this.canvasWidth / 2, this.canvasHeight / 2, 'bg');
-        this.bg.setOrigin(0.5).setScale(1);
     }
 
     preload() {
