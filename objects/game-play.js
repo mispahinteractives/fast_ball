@@ -63,7 +63,6 @@ export class GamePlay extends Phaser.GameObjects.Container {
             if (gameObject === this.line) {
                 let clampedX = Phaser.Math.Clamp(dragX, this.minX + this.line.displayWidth / 2, this.maxX - this.line.displayWidth / 2);
                 this.line.x = clampedX;
-                this.emitter.visible = true;
                 this.lineInteracted = true;
                 this.startGame();
             }
@@ -80,7 +79,7 @@ export class GamePlay extends Phaser.GameObjects.Container {
         });
         this.emitter.startFollow(this.ball);
         this.add(this.emitter);
-        this.emitter.visible = false;
+        this.emitter.visible = true;
 
         this.staticBall = this.scene.add.sprite(-150, -250, "sheet", 'white');
         this.staticBall.setOrigin(0.5);
@@ -134,6 +133,14 @@ export class GamePlay extends Phaser.GameObjects.Container {
         if (this.ball.x - this.ball.displayWidth / 2 <= this.minX || this.ball.x + this.ball.displayWidth / 2 >= this.maxX) {
             this.ballVelocityX *= -1;
             this.triggerHitEmitter(this.ball.x, this.ball.y);
+        }
+
+        if (Math.abs(this.ballVelocityX) < 0.5) {
+            this.ballVelocityX += (Math.random() - 0.5) * this.speedMultiplier;
+        }
+
+        if (Math.abs(this.ballVelocityY) < 0.5) {
+            this.ballVelocityY += (Math.random() - 0.5) * this.speedMultiplier;
         }
 
         let currentTime = this.scene.time.now; // Get the current timestamp
